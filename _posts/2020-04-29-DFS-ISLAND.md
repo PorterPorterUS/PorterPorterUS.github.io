@@ -107,11 +107,20 @@ class Solution {
 
 #### 695: 不同岛屿的面积
 一个二维矩阵, 有1和0, 找出最多连续的1的个数) 碰到一个1就开始DFS，内部将此位置设置为0，然后上下左右四个方向深度搜索,不用使用BackTracking,      
-###### 在200题基础上加了字符的参数
-最后一步，要加一个sb.append(b), 因为 1 1                         1 1 1
-							1 1      会和          1          相同
+#### 在200题基础上加了字符的参数
+最后一步，要加一个sb.append(b), 因为
+
+```c
+1 1              1  1   1
+  1 1               1
+
+
+```
+会相同
 
 不加sb.append(b)的话, 两者的结果都为RRDR,但是如果加了sb.append(b)的话，在返回的路上加了B, 第一个结果为RRDR, 第二个结果为RRDBR
+
+
 ```c
  class Solution {
     public int numDistinctIslands(int[][] grid) {
