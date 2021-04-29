@@ -40,49 +40,6 @@ BFS 多源最短路径问题
 #### 1197.给定一个无限大的棋盘, 骑士开始的位置在(0,0),  有8个方向可以移动，类似于中国象棋中的相的移动方式，然后求从(0,0)到目标地点最少需要移动多少步
 
 
-```c
-class Solution {
-    private final int[][] dirs= new int[][]{{2,1},{-2,-1},{2,-1},{-2,1},{1,2},{-1,-2},{1,-2},{-1,2}};
-    public int minKnightMoves(int x, int y) {
-       x = Math.abs(x); y = Math.abs(y);
-       int res = 0;
-       Queue<int[]> queue = new LinkedList<>();
-       queue.offer(new int[]{0,0});
-                   
-       HashSet<String> visited = new HashSet<>();
-       visited.add("0,0");
-       while(!queue.isEmpty()){
-           int size = queue.size();
-           for(int i = 0; i < size; i++){
-              int[] tmp = queue.remove();
-              int xOld = tmp[0];
-              int yOld = tmp[1];
-             // final dst 
-             if(xOld == x && yOld ==y){
-               return res;
-             }
-              
-              for(int[] d:dirs){
-                 //int xNew = xOld+dirs[d][0];
-                 //int yNew = xOld+dirs[d][1];
-                int newX = xOld + d[0];
-                int newY = yOld + d[1];
-                 if(!visited.contains(newX+","+newY) && newX>=0 && newY>=0){
-                   queue.add(new int[]{newX,newY});
-                   visited.add(newX+","+newY);
-                 }
-              }  
-             
-             
-           }
-          res++;
-       }
-      return -1;
-    }
-}
-
-
-```
 
 
 思路:  首先因为棋盘是对称的, 所以把目标位置统一转为正数, 然后创建visited, queue. 
