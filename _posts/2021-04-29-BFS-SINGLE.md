@@ -144,57 +144,7 @@ class Solution {
 最后  return count_fresh == 0 ? count-1 : -1; 
 一定注意：check不合法位置的逻辑是 出界+空水果+腐烂水果 另外注意: 如果初始的freshNum的数量为0，那么返回0
 
-```c
-class Solution {
-    private final int[][] dirs = new int[][]{{0,1},{1,0},{-1,0},{0,-1}};
-    public int orangesRotting(int[][] grid) {
-    if(grid == null || grid.length == 0 || grid[0].length ==0) return -1;
-   
-    int rows = grid.length; int cols = grid[0].length;
-    int freshNum = 0;
-    int minutes = 0;
-    Queue<int[]> queue = new LinkedList<>();
-    for(int i = 0; i < rows; i++){
-      for(int j = 0; j < cols; j++){
-          if(grid[i][j] == 2){
-             queue.offer(new int[]{i,j});
-          }else if (grid[i][j]==1){
-            freshNum++;
-          }
-      }
-    }
-      if(freshNum == 0) return 0;
 
-     
-      while(!queue.isEmpty()){
-        minutes++;
-        int size = queue.size();
-        for(int i = 0; i < size; i++){
-            int[] p = queue.poll();
-            int x = p[0]; int y = p[1];
-            for(int d=0;d<4;d++){
-              int newX= x+dirs[d][0];
-              int newY= y+dirs[d][1];
-              if(!check(grid,newX,newY)){
-                continue;
-              }
-              grid[newX][newY]=2;
-              queue.offer(new int[]{newX,newY});
-              freshNum--;
-            }
-        }
-      }
-      return freshNum==0?minutes-1:-1;
-      
-    }
-  private boolean check(int[][] grid, int x,int y){
-    if(x<0 || x==grid.length || y==grid[0].length || y<0 || grid[x][y]==2 || grid[x][y]==0) return false;
-    return true;
-  }
-  
-}
-
-```
 
 
 752. 你有一个带有四个圆形拨轮的转盘锁。每个拨轮都有10个数字： '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' 。
