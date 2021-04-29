@@ -135,3 +135,141 @@ class Solution {
 ```
 
 
+994.给一个m*n的矩阵,  1代表新鲜水果,  2代表腐烂, 每分钟腐烂水果的四周的新鲜水果会变的腐烂, 问水果全部腐烂的最快时间是多少，或者如果不能全部腐烂返回-1.
+
+
+思路: 	 首先遍历一遍矩阵，把所有腐烂的水果加入到queue中，然后统计有多少个新鲜水果， 
+开始BFS, BFS每轮对分钟数量+1，计算size，循环size次，
+每次对当前位置计算上下左右四个位置，如果位置合法四个位置设置为腐烂，然后添加到queue中，同时新鲜水果数量-1. 
+最后  return count_fresh == 0 ? count-1 : -1; 
+一定注意：check不合法位置的逻辑是 出界+空水果+腐烂水果 另外注意: 如果初始的freshNum的数量为0，那么返回0
+
+```c
+class Solution {
+    private final int[][] dirs = new int[][]{{0,1},{1,0},{-1,0},{0,-1}};
+    public int orangesRotting(int[][] grid) {
+    if(grid == null || grid.length == 0 || grid[0].length ==0) return -1;
+   
+    int rows = grid.length; int cols = grid[0].length;
+    int freshNum = 0;
+    int minutes = 0;
+    Queue<int[]> queue = new LinkedList<>();
+    for(int i = 0; i < rows; i++){
+      for(int j = 0; j < cols; j++){
+          if(grid[i][j] == 2){
+             queue.offer(new int[]{i,j});
+          }else if (grid[i][j]==1){
+            freshNum++;
+          }
+      }
+    }
+      if(freshNum == 0) return 0;
+
+     
+      while(!queue.isEmpty()){
+        minutes++;
+        int size = queue.size();
+        for(int i = 0; i < size; i++){
+            int[] p = queue.poll();
+            int x = p[0]; int y = p[1];
+            for(int d=0;d<4;d++){
+              int newX= x+dirs[d][0];
+              int newY= y+dirs[d][1];
+              if(!check(grid,newX,newY)){
+                continue;
+              }
+              grid[newX][newY]=2;
+              queue.offer(new int[]{newX,newY});
+              freshNum--;
+            }
+        }
+      }
+      return freshNum==0?minutes-1:-1;
+      
+    }
+  private boolean check(int[][] grid, int x,int y){
+    if(x<0 || x==grid.length || y==grid[0].length || y<0 || grid[x][y]==2 || grid[x][y]==0) return false;
+    return true;
+  }
+  
+}
+
+```
+
+
+752. 你有一个带有四个圆形拨轮的转盘锁。每个拨轮都有10个数字： '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' 。
+每个拨轮可以自由旋转：例如把 '9' 变为  '0'，'0' 变为 '9' 。每次旋转都只能旋转一个拨轮的一位数字。 锁的初始数字为 '0000' ，一个代表四个拨轮的数字的字符串。
+列表 deadends 包含了一组死亡数字，一旦拨轮的数字和列表里的任何一个元素相同，这个锁将会被永久锁定，无法再被旋转。 字符串 target 代表可以解锁的数字，你需要给出最小的旋转次数，如果无论如何不能解锁，返回 -1。  
+
+
+
+思路：属于单源最短路径问题, 
+解题思路 定义queue+visited 
+处理当前层： While loop 中循环size次, 每次poll一个String,  如果这个String等于终点直接返回，如果这个String是deadends则continue， 
+处理下一层： 然后遍历4次，每次确定两个新的String(UP,DOWN), 对于每个String都check一下是否在visited中，如果符合法律，就加入到queue和visited中 
+如果不在，则加入到visited和queue中
+
+
+```c
+class Solution {
+    public int openLock(String[] deadends, String target) {
+         HashSet<String>  dd = new HashSet<>();
+        for(String d: deadends){
+          dd.add(d);
+        }
+         Queue<String> queue = new LinkedList<>();
+         HashSet<String> visited = new HashSet<>();
+         queue.offer("0000");visited.add("0000");
+         int res = 0;
+         while(!queue.isEmpty()){
+            int size = queue.size();
+            for(int i = 0; i< size; i++){
+                String tmp = queue.poll();
+                if (tmp.equals(target)) return res;
+                if( dd.contains(tmp)) continue;
+                for(int d = 0; d< 4; d++){
+                   String newS1 = plusOne(tmp,d);
+                   if(!visited.contains(newS1)){
+                     queue.add(newS1); visited.add(newS1);
+                   }
+                   String newS2 = minusOne(tmp,d);
+                   if(!visited.contains(newS2)){
+                     queue.add(newS2); visited.add(newS2);
+                   }
+                }
+            }
+            res++;
+         }
+        return -1;
+      
+    }
+  
+  
+    private String plusOne(String target, int j){
+        char[] ch = target.toCharArray();
+        if(ch[j]=='9'){
+          ch[j] = '0';
+        }else{
+          ch[j] += 1;
+        }
+        return new String(ch);
+    }
+    
+    private String minusOne(String target, int j){
+      char[] ch = target.toCharArray();
+      if(ch[j]=='0'){
+        ch[j] = '9';
+      }else{
+        ch[j]-=1;
+      }
+      return new String(ch);
+    }  
+}
+
+```
+
+
+
+
+
+
