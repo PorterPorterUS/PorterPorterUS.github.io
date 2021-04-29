@@ -210,64 +210,6 @@ class Solution {
 如果不在，则加入到visited和queue中
 
 
-```c
-class Solution {
-    public int openLock(String[] deadends, String target) {
-         HashSet<String>  dd = new HashSet<>();
-        for(String d: deadends){
-          dd.add(d);
-        }
-         Queue<String> queue = new LinkedList<>();
-         HashSet<String> visited = new HashSet<>();
-         queue.offer("0000");visited.add("0000");
-         int res = 0;
-         while(!queue.isEmpty()){
-            int size = queue.size();
-            for(int i = 0; i< size; i++){
-                String tmp = queue.poll();
-                if (tmp.equals(target)) return res;
-                if( dd.contains(tmp)) continue;
-                for(int d = 0; d< 4; d++){
-                   String newS1 = plusOne(tmp,d);
-                   if(!visited.contains(newS1)){
-                     queue.add(newS1); visited.add(newS1);
-                   }
-                   String newS2 = minusOne(tmp,d);
-                   if(!visited.contains(newS2)){
-                     queue.add(newS2); visited.add(newS2);
-                   }
-                }
-            }
-            res++;
-         }
-        return -1;
-      
-    }
-  
-  
-    private String plusOne(String target, int j){
-        char[] ch = target.toCharArray();
-        if(ch[j]=='9'){
-          ch[j] = '0';
-        }else{
-          ch[j] += 1;
-        }
-        return new String(ch);
-    }
-    
-    private String minusOne(String target, int j){
-      char[] ch = target.toCharArray();
-      if(ch[j]=='0'){
-        ch[j] = '9';
-      }else{
-        ch[j]-=1;
-      }
-      return new String(ch);
-    }  
-}
-
-```
-
 
 
 
