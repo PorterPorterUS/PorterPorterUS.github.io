@@ -144,6 +144,10 @@ class Solution {
 最后  return count_fresh == 0 ? count-1 : -1; 
 一定注意：check不合法位置的逻辑是 出界+空水果+腐烂水果 另外注意: 如果初始的freshNum的数量为0，那么返回0
 
+```c
+
+```
+
 
 
 
