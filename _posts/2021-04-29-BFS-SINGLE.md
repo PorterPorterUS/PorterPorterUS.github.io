@@ -43,9 +43,6 @@ BFS 单源最短路径问题
 
 解法：先用LC200的办法找到一个岛屿, 并且把这个岛屿设置为2，次遍历到一个1的时候，就把这个1对应的坐标加入到queue中。 第二步，对Queue进行BFS，每次pop出一个坐标，就对这个坐标的上下左右进行check, 如果某一个方向为1，那么直接return，如果没有1，那么把上下左右也设置为2，同时添加到queue中。做完一层BFS之后，step++。
 
-
-
-
 ```c
 class Solution {
     private Queue<int[]> q = new LinkedList<>();
