@@ -47,53 +47,29 @@ BFS 单源最短路径问题
 
 ```c
 class Solution {
-    private Queue<int[]> q = new LinkedList<>();
-    public int shortestBridge(int[][] A) {
-        int[][] dirs = new int[][]{{0,1},{0,-1},{1,0},{-1,0}};
-        int rows = A.length;
-        int cols = A[0].length;
-        int res = 0;
-        boolean found = false;
-        
-        for(int i =0; i < rows && !found;i++){
-          for(int j = 0; j < cols&&!found;j++){
-            if(A[i][j]==1){
-              dfs(i,j,rows,cols,A);
-              found = true;
-            }
+    public boolean isBipartite(int[][] graph) {
+        int[] visited = new int[graph.length];
+        for(int i = 0 ;i < graph.length;i++){
+          if(visited[i]==0){
+            if(!dfs(i,graph,1,visited)) return false;
           }
         }
-      while(!q.isEmpty()){
-        int size = q.size();
-        for(int i = 0 ; i < size; i++){
-          int[] cur = q.poll();
-          for(int d=0; d<4;d++){
-            int newX = dirs[d][0]+cur[0];
-            int newY = dirs[d][1]+cur[1];
-            if(newX<0||newX==rows||newY<0||newY==cols||A[newX][newY]==2) continue;
-            if(A[newX][newY] == 1) return res;
-            A[newX][newY] =2;
-            q.offer(new int[]{newX,newY});
-          }
-          
-        }
-        res++;
+      return true;
+    }
+    private boolean dfs(int node,int[][] graph,int color,int[] visited){
+      if(visited[node]!=0){
+        return visited[node]==color;
       }
-      return -1;
+      visited[node]=color;
+      for(int g:graph[node]){
+        if(!dfs(g,graph,-color,visited)) return false;
+      }
+      return true;
       
     }
-  
-    private void dfs(int i, int j,int rows,int cols,int[][] A){
-      if(i==rows || i<0 || j<0 || j==cols || A[i][j]!=1) return;
-      A[i][j] = 2;
-      q.offer(new int[]{i,j});
-      dfs(i+1,j,rows,cols,A);
-      dfs(i-1,j,rows,cols,A);
-      dfs(i,j+1,rows,cols,A);
-      dfs(i,j-1,rows,cols,A);
-      
-    }
+    
 }
+
 
 ```
 
