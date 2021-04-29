@@ -147,52 +147,63 @@ class Solution {
 
 ```c
 class Solution {
-    private final int[][] dirs = new int[][]{{0,1},{1,0},{-1,0},{0,-1}};
+    static int row[]={0,1,0,-1};
+    static int col[]={1,0,-1,0};
     public int orangesRotting(int[][] grid) {
-    if(grid == null || grid.length == 0 || grid[0].length ==0) return -1;
-   
-    int rows = grid.length; int cols = grid[0].length;
-    int freshNum = 0;
-    int minutes = 0;
-    Queue<int[]> queue = new LinkedList<>();
-    for(int i = 0; i < rows; i++){
-      for(int j = 0; j < cols; j++){
-          if(grid[i][j] == 2){
-             queue.offer(new int[]{i,j});
-          }else if (grid[i][j]==1){
-            freshNum++;
-          }
-      }
-    }
-      if(freshNum == 0) return 0;
-
-     
-      while(!queue.isEmpty()){
-        minutes++;
-        int size = queue.size();
-        for(int i = 0; i < size; i++){
-            int[] p = queue.poll();
-            int x = p[0]; int y = p[1];
-            for(int d=0;d<4;d++){
-              int newX= x+dirs[d][0];
-              int newY= y+dirs[d][1];
-              if(!check(grid,newX,newY)){
-                continue;
-              }
-              grid[newX][newY]=2;
-              queue.offer(new int[]{newX,newY});
-              freshNum--;
+        Queue<int[]>q=new LinkedList<>();
+        int n=grid.length;
+        if(n==0)
+            return 0;
+        int m=grid[0].length;
+        if(m==0)
+            return 0;
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<m;j++)
+            {
+                if(grid[i][j]==2)
+                {
+                    q.add(new int[]{i,j});
+                    grid[i][j]=0;
+                }
             }
         }
-      }
-      return freshNum==0?minutes-1:-1;
-      
+        int count=0;
+        while(!q.isEmpty())
+        {
+            int s=q.size();
+            while(s-->0)
+            {
+                int t[]=q.poll();
+                int x=t[0];
+                int y=t[1];
+                for(int k=0;k<4;k++)
+                {
+                    if(safe(row[k]+x,col[k]+y,n,m,grid))
+                    {
+                        q.add(new int[]{row[k]+x,col[k]+y});
+                        grid[row[k]+x][col[k]+y]=0;
+                    }
+                }
+            }
+            count++;
+        }
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<m;j++)
+            {
+                if(grid[i][j]>0)
+                    return -1;
+            }
+        }
+        return count-1>=0?count-1:0;
     }
-  private boolean check(int[][] grid, int x,int y){
-    if(x<0 || x==grid.length || y==grid[0].length || y<0 || grid[x][y]==2 || grid[x][y]==0) return false;
-    return true;
-  }
-  
+    boolean safe(int i,int j,int n,int m,int a[][])
+    {
+        if(i<0||j<0||i>=n||j>=m||a[i][j]==0)
+            return false;
+        return true;
+    }
 }
 ```
 
