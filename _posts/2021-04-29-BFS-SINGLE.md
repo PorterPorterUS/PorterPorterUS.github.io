@@ -34,8 +34,7 @@ tags: algorithm leetcode
 
 BFS 单源最短路径问题
 
-#### BFS的格式
-
+####  BFS的格式
 
 1. 定义queue+visited+4个方向
 
