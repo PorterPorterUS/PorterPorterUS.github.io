@@ -71,6 +71,41 @@ DFS 岛屿问题
  ```
 
 
+#### 695: 最大岛屿的面积
+(一个二维矩阵, 有1和0, 找出最多连续的1的个数) 碰到一个1就开始DFS，内部将此位置设置为0，然后上下左右四个方向深度搜索, 不用使用BackTracking,  
+
+#在200题的基础之上加入了res+=的概念
+ ```c
+ 
+class Solution {
+    public int maxAreaOfIsland(int[][] grid) {
+        int res = 0;
+        for(int i = 0; i < grid.length; i++){
+          for(int j = 0; j < grid[0].length; j++){
+              if(grid[i][j] == 1){
+                res = Math.max(res,dfs(i,j,grid));
+              }
+              
+          }
+        }
+        return res;
+    }
+  
+  
+    private int dfs(int i, int j, int[][] grid){
+      if(i < 0 || i>=grid.length || j<0 || j>=grid[0].length || grid[i][j] == 0) return 0;
+      int res = 1;
+      grid[i][j] = 0;
+      res+= dfs(i+1,j,grid);
+      res+= dfs(i,j+1,grid);
+      res+= dfs(i-1,j,grid);
+      res+= dfs(i,j-1,grid);
+      return res;
+    }
+}
+ 
+ 
+ ```
 
 
 
