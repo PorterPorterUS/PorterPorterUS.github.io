@@ -144,6 +144,73 @@ class Solution {
 最后  return count_fresh == 0 ? count-1 : -1; 
 一定注意：check不合法位置的逻辑是 出界+空水果+腐烂水果 另外注意: 如果初始的freshNum的数量为0，那么返回0
 
+
+```c
+class Solution {
+    public int orangesRotting(int[][] grid) {
+        if(grid == null || grid.length == 0) return 0;
+        int rows = grid.length;
+        int cols = grid[0].length;
+        Queue<int[]> queue = new LinkedList<>();
+        int count_fresh = 0;
+        //Put the position of all rotten oranges in queue
+        //count the number of fresh oranges
+        for(int i = 0 ; i < rows ; i++) {
+            for(int j = 0 ; j < cols ; j++) {
+                if(grid[i][j] == 2) {
+                    queue.offer(new int[]{i , j});
+                }
+                else if(grid[i][j] == 1) {
+                    count_fresh++;
+                }
+            }
+        }
+        //if count of fresh oranges is zero --> return 0 
+        if(count_fresh == 0) return 0;
+        int count = 0;
+        int[][] dirs = {{1,0},{-1,0},{0,1},{0,-1}};
+        //bfs starting from initially rotten oranges
+        while(!queue.isEmpty()) {
+            ++count;
+            int size = queue.size();
+            for(int i = 0 ; i < size ; i++) {
+                int[] point = queue.poll();
+                for(int dir[] : dirs) {
+                    int x = point[0] + dir[0];
+                    int y = point[1] + dir[1];
+                    //if x or y is out of bound
+                    //or the orange at (x , y) is already rotten
+                    //or the cell at (x , y) is empty
+                        //we do nothing
+                    if(x < 0 || y < 0 || x >= rows || y >= cols || grid[x][y] == 0 || grid[x][y] == 2) continue;
+                    //mark the orange at (x , y) as rotten
+                    grid[x][y] = 2;
+                    //put the new rotten orange at (x , y) in queue
+                    queue.offer(new int[]{x , y});
+                    //decrease the count of fresh oranges by 1
+                    count_fresh--;
+                }
+            }
+        }
+        return count_fresh == 0 ? count-1 : -1;
+    }
+}
+```
+
+
+
+
+#### 752. 你有一个带有四个圆形拨轮的转盘锁。每个拨轮都有10个数字： '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' 。每个拨轮可以自由旋转：例如把 '9' 变为  '0'，'0' 变为 '9' 。每#### 次旋转都只能旋转一个拨轮的一位数字。 锁的初始数字为 '0000' ，一个代表四个拨轮的数字的字符串。列表 deadends 包含了一组死亡数字，一旦拨轮的数字和列表里的任何一个元素相同，这个锁将会被永久锁#### 定，无法再被旋转。 字符串 target 代表可以解锁的数字，你需要给出最小的旋转次数，如果无论如何不能解锁，返回 -1。  
+
+
+
+思路：属于单源最短路径问题, 
+解题思路 定义queue+visited 
+处理当前层： While loop 中循环size次, 每次poll一个String,  如果这个String等于终点直接返回，如果这个String是deadends则continue， 
+处理下一层： 然后遍历4次，每次确定两个新的String(UP,DOWN), 对于每个String都check一下是否在visited中，如果符合法律，就加入到queue和visited中 
+如果不在，则加入到visited和queue中
+
+
 ```c
 class Solution {
     
@@ -188,25 +255,6 @@ class Solution {
     }
 }
 ```
-
-
-
-
-
-
-
-#### 752. 你有一个带有四个圆形拨轮的转盘锁。每个拨轮都有10个数字： '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' 。每个拨轮可以自由旋转：例如把 '9' 变为  '0'，'0' 变为 '9' 。每#### 次旋转都只能旋转一个拨轮的一位数字。 锁的初始数字为 '0000' ，一个代表四个拨轮的数字的字符串。列表 deadends 包含了一组死亡数字，一旦拨轮的数字和列表里的任何一个元素相同，这个锁将会被永久锁#### 定，无法再被旋转。 字符串 target 代表可以解锁的数字，你需要给出最小的旋转次数，如果无论如何不能解锁，返回 -1。  
-
-
-
-思路：属于单源最短路径问题, 
-解题思路 定义queue+visited 
-处理当前层： While loop 中循环size次, 每次poll一个String,  如果这个String等于终点直接返回，如果这个String是deadends则continue， 
-处理下一层： 然后遍历4次，每次确定两个新的String(UP,DOWN), 对于每个String都check一下是否在visited中，如果符合法律，就加入到queue和visited中 
-如果不在，则加入到visited和queue中
-
-
-
 
 
 
