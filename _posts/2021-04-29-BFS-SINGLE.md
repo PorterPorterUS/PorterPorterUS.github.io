@@ -48,55 +48,71 @@ BFS 单源最短路径问题
 ```c
 class Solution {
     public int shortestBridge(int[][] A) {
-        int m = A.length, n = A[0].length;
-        boolean[][] visited = new boolean[m][n];
-        int[][] dirs = new int[][]{{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
-        Queue<int[]> q = new LinkedList<>();
-        boolean found = false;
-        // 1. dfs to find an island, mark it in `visited`
-        for (int i = 0; i < m; i++) {
-            if (found) {
-                break;
-            }
-            for (int j = 0; j < n; j++) {
-                if (A[i][j] == 1) {
-                    dfs(A, visited, q, i, j, dirs);
-                    found = true;
-                    break;
+        paint(A); //paint one island with int 2
+        Queue<int[]> q = new LinkedList<>(); //queue contains coordinates to do bfs
+        boolean[][] visited = new boolean[A.length][A[0].length];
+        
+        for(int i = 0; i < A.length; i ++){//initialize queue with all coordinates with number 2
+            for(int j = 0; j < A[0].length; j ++){
+                if(A[i][j] == 2){
+                    q.add(new int[]{i,j});
+                    visited[i][j] = true;
                 }
             }
         }
-        // 2. bfs to expand this island
-        int step = 0;
-        while (!q.isEmpty()) {
+        
+        int level = 0;
+        while(!q.isEmpty()){//level order bfs
             int size = q.size();
-            while (size-- > 0) {
+            for(int i = 0; i < size; i ++){
                 int[] cur = q.poll();
-                for (int[] dir : dirs) {
-                    int i = cur[0] + dir[0];
-                    int j = cur[1] + dir[1];
-                    if (i >= 0 && j >= 0 && i < m && j < n && !visited[i][j]) {
-                        if (A[i][j] == 1) {
-                            return step;
-                        }
-                        q.offer(new int[]{i, j});
-                        visited[i][j] = true;
-                    }
+                int x = cur[0];
+                int y = cur[1];
+                if(A[x][y] == 1){//found, then return
+                    return level - 1;
+                }
+                if(x - 1 >= 0 && !visited[x - 1][y]){
+                    q.add(new int[]{x - 1, y});
+                    visited[x - 1][y] = true;
+                }
+                if(x + 1 < A.length && !visited[x + 1][y]){
+                    q.add(new int[]{x + 1, y});
+                    visited[x + 1][y] = true;
+                }
+                if(y - 1 >= 0 && !visited[x][y - 1]){
+                    q.add(new int[]{x, y - 1});
+                    visited[x][y - 1] = true;
+                }
+                if(y + 1 < A[0].length && !visited[x][y + 1]){
+                    q.add(new int[]{x, y + 1});
+                    visited[x][y + 1] = true;
                 }
             }
-            step++;
+            level ++; //next level
         }
         return -1;
     }
-    private void dfs(int[][] A, boolean[][] visited, Queue<int[]> q, int i, int j, int[][] dirs) {
-        if (i < 0 || j < 0 || i >= A.length || j >= A[0].length || visited[i][j] || A[i][j] == 0) {
+    
+    public void paint(int[][] A){//paint one island with int 2
+        for(int i = 0; i < A.length; i ++){
+            for(int j = 0; j < A[0].length; j ++){
+                if(A[i][j] == 1){
+                    dfs(i, j, A);
+                    return;
+                }
+            }
+        }
+    }
+    
+    public void dfs(int x, int y, int[][] A){//helper function for paint function
+        if(x < 0 || x > A.length - 1 || y < 0 || y > A[0].length - 1 || A[x][y] != 1){
             return;
         }
-        visited[i][j] = true;
-        q.offer(new int[]{i, j});
-        for (int[] dir : dirs) {
-            dfs(A, visited, q, i + dir[0], j + dir[1], dirs);
-        }
+        A[x][y] = 2;
+        dfs(x - 1, y, A);
+        dfs(x + 1, y, A);
+        dfs(x, y - 1, A);
+        dfs(x, y + 1, A);
     }
 }
 
