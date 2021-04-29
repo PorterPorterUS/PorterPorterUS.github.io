@@ -1,10 +1,10 @@
 # --- General options --- #
 
 # Name of website
-title: Akira
+title: Xusheng Ji
 
 # Short description of your site
-description: Kono Dio Da !!! 
+description: Data-intensive application
 
 markdown: kramdown
 #remote_theme: pmarsceill/just-the-docs
