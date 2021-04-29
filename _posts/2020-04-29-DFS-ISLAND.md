@@ -105,7 +105,7 @@ class Solution {
 }
  ```
 
-#### 695: 不同岛屿的面积
+#### 694: 不同岛屿的面积
 一个二维矩阵, 有1和0, 找出最多连续的1的个数) 碰到一个1就开始DFS，内部将此位置设置为0，然后上下左右四个方向深度搜索,不用使用BackTracking,      
 #### 在200题基础上加了字符的参数
 最后一步，要加一个sb.append(b), 因为
@@ -150,6 +150,47 @@ class Solution {
     }
 }
  ```
+
+#### 1254: 孤立岛屿的个数
+0是陆地，1是水, 求封闭岛屿的个数，封闭的岛屿是一个堆0连接起来，并且周围都是1，上下左右都是1
+
+思路: 如果当前位置是0就进行DFS遍历，如果当前位置已经是1了,那么就返回1，不要进行DFS遍历，如果不是一个封闭的岛屿,那么通过某个0进行DFS遍历,一定能遍历到一个位于边界位置的0
+
+
+```c
+class Solution {
+    public int closedIsland(int[][] grid) {
+        int res = 0;
+        for(int i =0; i < grid.length;i++){
+          for(int j = 0; j < grid[0].length; j++){
+              if(grid[i][j] == 0){
+                 if(dfs(i,j,grid) == true){
+                res++;
+              }
+              }
+             
+          }
+        }
+        return res;
+    }
+  
+    private boolean dfs(int i, int j,int[][] grid){
+        if(i<0 || j<0 || i>= grid.length || j>=grid[0].length) return false;
+        if(grid[i][j] == 1) return true;
+        grid[i][j] = 1;
+        boolean s1 = dfs(i+1,j,grid);
+         boolean s2 = dfs(i-1,j,grid);
+       boolean s3 = dfs(i,j+1,grid);
+       boolean s4 = dfs(i,j-1,grid);
+      return s1 && s2 && s3 && s4;
+    }
+}
+ ```
+
+
+
+
+
 
 
 
