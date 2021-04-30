@@ -54,7 +54,7 @@ BFS 多源最短路径问题
       Queue<int[]> queue = new LinkedList(); 
       int[] arr = new int[]{0,0};
       queue.offer(arr);
-
+      int[][] dirs = {{-2,-1},{-1,-2},{1,2},{2,1},{2,-1},{1,-2},{-2,1},{-1,2}};
  
 ```
 
