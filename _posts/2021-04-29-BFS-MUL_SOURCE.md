@@ -50,6 +50,16 @@ BFS 多源最短路径问题
 
 ```c
  public int minKnightMoves(int x, int y) {
+      HashMap<Integer, HashMap<Integer, Integer>> visited = new HashMap();
+      Queue<int[]> queue = new LinkedList();
+       int[] arr = new int[]{0,0};
+       queue.offer(arr);
+       int[][] dirs = {{-2,-1},{-1,-2},{1,2},{2,1},{2,-1},{1,-2},{-2,1},{-1,2}};
+    int ans = 0;
+    HashMap<Integer, Integer> map = new HashMap();
+    map.put(0, 0);
+    visited.put(0, map);
+ 
 ```
 
 
