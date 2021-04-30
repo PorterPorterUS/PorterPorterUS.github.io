@@ -160,7 +160,7 @@ class Solution {
     private static final int emp = Integer.MAX_VALUE;
     private static final int gate = 0;
     private static final int wall = -1;
-    private static final int[][] dirs = new int[][]{{1,0},{0,1},{-1,0},{0,-1}};
+    private static final int[][] dirs = new int[][]{ {1,0},{0,1},{-1,0},{0,-1} };
     public void wallsAndGates(int[][] rooms) {
         //corner case
         if(rooms==null || rooms.length ==0 || rooms[0].length == 0) return;
