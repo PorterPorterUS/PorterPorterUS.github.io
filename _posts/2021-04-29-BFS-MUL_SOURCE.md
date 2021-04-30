@@ -77,12 +77,11 @@ BFS 多源最短路径问题
                 int newX = xOld + d[0];
                 int newY = yOld + d[1];
                  if(!visited.contains(newX+","+newY) && newX>=-1 && newY>=-1){
-                   queue.add(new int[]{newX,newY});
+                   queue.add(new int[]{newX,newY} );
                    visited.add(newX+","+newY);
                  }
               }  
-             
-             
+
            }
           res++;
        }
@@ -90,8 +89,7 @@ BFS 多源最短路径问题
       
     }
 }
-      
-      
+          
       
 ```
 
