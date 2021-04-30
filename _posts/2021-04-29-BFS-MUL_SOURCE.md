@@ -148,6 +148,53 @@ class Solution {
 
 
 
+#### 286. -1是障碍物, 0是gate, INF是空白位置。求的每个空白处的最近的gate的距离。
+
+
+思路： 此类问题是多源的最短路径问题,  和1091不同, 1091是单源最短路径. 单源路径每次都是加入起点，因为已经知道起点了，然后while loop内遍历size次，每一次之内又重新遍历8个方向 
+但是多源路径，一开始需要把每个gate全部加入到queue中，然后while loop之内没有for size, 直接pop出一个，然后遍历4个方向，每次check一个方向是否合法，如果合法，更新当前位置(当前位置的old value + 1 =>new value, 这里不用担心同一个位置被多个gate所更新，因为永远是离着它最近的gate先把这个empty先更新掉)，然后加入到队列中。
+
+
+```java
+class Solution {
+    private static final int emp = Integer.MAX_VALUE;
+    private static final int gate = 0;
+    private static final int wall = -1;
+    private static final int[][] dirs = new int[][]{{1,0},{0,1},{-1,0},{0,-1}};
+    public void wallsAndGates(int[][] rooms) {
+        //corner case
+        if(rooms==null || rooms.length ==0 || rooms[0].length == 0) return;
+        int rows = rooms.length;
+        int cols = rooms[0].length;
+        Queue<int[]> queue = new LinkedList<>();
+        for(int i = 0; i < rows; i++){
+          for(int j = 0; j < cols; j++){
+            if(rooms[i][j] == gate){
+              queue.add(new int[]{i,j});
+            }
+          }
+        }
+      while(!queue.isEmpty()){
+        int[] cur = queue.poll();
+        int x = cur[0]; int y = cur[1];
+        for(int d = 0 ; d<4;d++){
+          int newX = x+dirs[d][0];
+          int newY = y+dirs[d][1];
+          if(newX<0 || newX==rows || newY<0 || newY==cols || rooms[newX][newY] !=emp) continue;
+          rooms[newX][newY] = rooms[x][y]+1;
+          queue.offer(new int[]{newX,newY});
+        }
+        
+      } 
+    }
+}
+
+```
+
+
+
+
+
 
 
 
