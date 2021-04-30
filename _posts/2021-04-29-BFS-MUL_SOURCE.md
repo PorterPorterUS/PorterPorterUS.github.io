@@ -49,47 +49,39 @@ BFS 多源最短路径问题
 
 
 ```c
-
 class Solution {
-    private final int[][] DIRECTIONS = new int[][] {{2, 1}, {1, 2}, {-1, 2}, {-2, 1}, {-2, -1}, {-1, -2}, {1, -2}, {2, -1}};
-    
+    int[][] dd = {{2, 1}, {1, 2}, {-1, 2}, {-2, 1}, {-2, -1}, {-1, -2}, {1, -2}, {2, -1}}; 
     public int minKnightMoves(int x, int y) {
+        Set<String> set = new HashSet<>();
+        Queue<int[]> q = new LinkedList<>();
         x = Math.abs(x);
         y = Math.abs(y);
-        
-        Queue<int[]> queue = new LinkedList<>();
-        queue.add(new int[] {0, 0});
-        
-        Set<String> visited = new HashSet<>();
-        visited.add("0,0");
-        
-        int result = 0;
-        while (!queue.isEmpty()) {
-            int size = queue.size();
+        q.add(new int[2]);
+        set.add("0" + " " + "0");
+        int step = 0;
+        while (!q.isEmpty()) {
+            int size = q.size();
             for (int i = 0; i < size; i++) {
-                int[] cur = queue.remove();
-                int curX = cur[0];
-                int curY = cur[1];
-                if (curX == x && curY == y) {
-                    return result;
+                int[] temp = q.poll();
+                if (temp[0] == x && temp[1] == y) {
+                    return step;
                 }
-                
-                for (int[] d : DIRECTIONS) {
-                    int newX = curX + d[0];
-                    int newY = curY + d[1];
-                    if (!visited.contains(newX + "," + newY) && newX >= -1 && newY >= -1) {
-                        queue.add(new int[] {newX, newY});
-                        visited.add(newX + "," + newY);
+                for (int j = 0; j < 8; j++) {
+                    int nx = temp[0] + dd[j][0];
+                    int ny = temp[1] + dd[j][1];
+                    String key = nx + " " + ny;
+                    if (nx < 0 || ny < 0 ||set.contains(key)) {
+                        continue;
                     }
+                    set.add(key);
+                    q.add(new int[]{nx, ny});
                 }
             }
-            result++;
+            step++;
         }
         return -1;
     }
 }
-
-
 ```
 
 
