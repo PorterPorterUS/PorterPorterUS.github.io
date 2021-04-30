@@ -195,7 +195,45 @@ class Solution {
 
 
 
+#### 909.一个N*N的棋盘, 格子的标号从1开始如下所示, 每次的行动,  只有两种情况，第一种投掷骰子,从目前为止走X+1,X+2,X+3,X+4,X+5,X+6. 第二种碰到梯子或者蛇,那么目的地就是梯子和蛇的终点. 问从起始点走到终点最快需要多少步？？？
 
+
+```java
+class Solution{
+    public int snakesAndLadders(int[][] board) {
+        int n = board.length;
+        Queue<Integer> queue = new LinkedList<>();
+        queue.offer(1);
+        boolean[] visited = new boolean[n * n + 1];
+        for (int move = 0; !queue.isEmpty(); move++) {
+            for (int size = queue.size(); size > 0; size--) {
+                int num = queue.poll();
+                if (visited[num]) continue;
+                visited[num] = true;
+                if (num == n * n) return move;
+                for (int i = 1; i <= 6 && num + i <= n * n; i++) {
+                    int next = num + i;
+                    int value = getBoardValue(board, next);
+                    if (value > 0) next = value;
+                    if (!visited[next]) queue.offer(next);
+                }
+            }
+        }
+        return -1;
+    }
+
+    private int getBoardValue(int[][] board, int num) {
+        int n = board.length;
+        int oldRow = (num - 1) / n;
+        int row = n-1 -oldRow;
+        int oldCol = (num-1) % n;
+        int col = oldRow % 2 == 0 ? oldCol : n - 1 - oldCol;
+        
+        return board[row][col];
+    }
+}
+
+```
 
 
 
