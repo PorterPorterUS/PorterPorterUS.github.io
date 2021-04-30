@@ -66,9 +66,7 @@ class Solution {
               int xOld = tmp[0];
               int yOld = tmp[1];
              // final dst 
-             if(xOld == x && yOld ==y){
-               return res;
-             }
+             if(xOld == x && yOld ==y){ return res; }
               
               for(int[] d:dirs){
                  //int xNew = xOld+dirs[d][0];
@@ -80,13 +78,10 @@ class Solution {
                    visited.add(newX+","+newY);
                  }
               }  
-             
-             
            }
           res++;
        }
       return -1;
-       
     }
 }
 ```
