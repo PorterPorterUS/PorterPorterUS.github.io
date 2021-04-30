@@ -50,36 +50,43 @@ BFS 多源最短路径问题
 
 ```java
 class Solution {
-    int[][] dd = {{2, 1}, {1, 2}, {-1, 2}, {-2, 1}, {-2, -1}, {-1, -2}, {1, -2}, {2, -1}}; 
+    private final int[][] dirs= new int[][]{{2,1},{-2,-1},{2,-1},{-2,1},{1,2},{-1,-2},{1,-2},{-1,2}};
     public int minKnightMoves(int x, int y) {
-        Set<String> set = new HashSet<>();
-        Queue<int[]> q = new LinkedList<>();
-        x = Math.abs(x);
-        y = Math.abs(y);
-        q.add(new int[2]);
-        set.add("0" + " " + "0");
-        int step = 0;
-        while (!q.isEmpty()) {
-            int size = q.size();
-            for (int i = 0; i < size; i++) {
-                int[] temp = q.poll();
-                if (temp[0] == x && temp[1] == y) {
-                    return step;
-                }
-                for (int j = 0; j < 8; j++) {
-                    int nx = temp[0] + dd[j][0];
-                    int ny = temp[1] + dd[j][1];
-                    String key = nx + " " + ny;
-                    if (nx < 0 || ny < 0 ||set.contains(key)) {
-                        continue;
-                    }
-                    set.add(key);
-                    q.add(new int[]{nx, ny});
-                }
-            }
-            step++;
-        }
-        return -1;
+       x = Math.abs(x); y = Math.abs(y);
+       int res = 0;
+       Queue<int[]> queue = new LinkedList<>();
+       queue.offer(new int[]{0,0});
+                   
+       HashSet<String> visited = new HashSet<>();
+       visited.add("0,0");
+       while(!queue.isEmpty()){
+           int size = queue.size();
+           for(int i = 0; i < size; i++){
+              int[] tmp = queue.remove();
+              int xOld = tmp[0];
+              int yOld = tmp[1];
+             // final dst 
+             if(xOld == x && yOld ==y){
+               return res;
+             }
+              
+              for(int[] d:dirs){
+                 //int xNew = xOld+dirs[d][0];
+                 //int yNew = xOld+dirs[d][1];
+                int newX = xOld + d[0];
+                int newY = yOld + d[1];
+                 if(!visited.contains(newX+","+newY) && newX>=-1 && newY>=-1){
+                   queue.add(new int[]{newX,newY});
+                   visited.add(newX+","+newY);
+                 }
+              }  
+             
+             
+           }
+          res++;
+       }
+      return -1;
+       
     }
 }
 ```
