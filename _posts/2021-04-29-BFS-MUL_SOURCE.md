@@ -48,7 +48,7 @@ BFS 多源最短路径问题
 每次一个BFS结束后，res++,如果中途碰到了目标位置return res,否则return -1.
 
 
-`
+```java
 class Solution {
     int[][] dd = {{2, 1}, {1, 2}, {-1, 2}, {-2, 1}, {-2, -1}, {-1, -2}, {1, -2}, {2, -1}}; 
     public int minKnightMoves(int x, int y) {
@@ -82,7 +82,7 @@ class Solution {
         return -1;
     }
 }
-`
+```
 
 
 
