@@ -51,7 +51,10 @@ BFS 多源最短路径问题
 ```java
  public int minKnightMoves(int x, int y) {
       HashMap<Integer, HashMap<Integer, Integer>> visited = new HashMap();
-     
+      Queue<int[]> queue = new LinkedList(); 
+      int[] arr = new int[]{0,0};
+      queue.offer(arr);
+
  
 ```
 
