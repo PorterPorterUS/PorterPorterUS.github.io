@@ -49,41 +49,39 @@ BFS 多源最短路径问题
 
 
 ```java
-class Solution {
-    private final int[][] dirs= new int[][]{{2,1},{-2,-1},{2,-1},{-2,1},{1,2},{-1,-2},{1,-2},{-1,2}};
-    public int minKnightMoves(int x, int y) {
-       x = Math.abs(x); y = Math.abs(y);
-       int res = 0;
-       Queue<int[]> queue = new LinkedList<>();
-       queue.offer(new int[]{0,0});
-                   
-       HashSet<String> visited = new HashSet<>();
-       visited.add("0,0");
-       while(!queue.isEmpty()){
-           int size = queue.size();
-           for(int i = 0; i < size; i++){
-              int[] tmp = queue.remove();
-              int xOld = tmp[0];
-              int yOld = tmp[1];
-             // final dst 
-             if(xOld == x && yOld ==y){ return res; }
-              
-              for(int[] d:dirs){
-                 //int xNew = xOld+dirs[d][0];
-                 //int yNew = xOld+dirs[d][1];
-                int newX = xOld + d[0];
-                int newY = yOld + d[1];
-                 if(!visited.contains(newX+","+newY) && newX>=-1 && newY>=-1){
-                   queue.add(new int[]{newX,newY});
-                   visited.add(newX+","+newY);
-                 }
-              }  
-           }
-          res++;
-       }
-      return -1;
+public int minKnightMoves(int x, int y) {
+    HashMap<Integer, HashMap<Integer, Integer>> visited = new HashMap();
+    Queue<int[]> queue = new LinkedList();    
+    int[] arr = new int[]{0,0};
+    queue.offer(arr);
+    int[][] dirs = {{-2,-1},{-1,-2},{1,2},{2,1},{2,-1},{1,-2},{-2,1},{-1,2}};
+    int ans = 0;
+    HashMap<Integer, Integer> map = new HashMap();
+    map.put(0, 0);
+    visited.put(0, map);
+    while(!queue.isEmpty()) {      
+      int[] node = queue.poll();
+      if(node[0] == x && node[1] == y) {
+        ans = visited.get(x).get(y);
+        break;
+      }
+      for (int[] dir : dirs) {
+        int newx = node[0] + dir[0];
+        int newy = node[1] + dir[1];                
+        int dist = visited.get(node[0]).get(node[1]) + 1;
+        if(visited.containsKey(newx) && visited.get(newx).containsKey(newy)) {
+          continue;
+        }
+        if(!visited.containsKey(newx)) {
+          visited.put(newx, new HashMap());
+        }
+        visited.get(newx).put(newy, dist);
+        int[] narr = new int[] {newx, newy};
+        queue.offer(narr);
+      }
     }
-}
+    return ans;
+  }
 ```
 
 
