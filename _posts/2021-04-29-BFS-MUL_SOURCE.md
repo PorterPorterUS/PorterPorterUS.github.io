@@ -95,6 +95,62 @@ BFS 多源最短路径问题
 
 
 
+#### 542.给定一个由 0 和 1 组成的矩阵，找出每个元素到最近的 0 的距离。 两个相邻元素间的距离为 1 
+
+
+
+
+思路:  求多源的最短路径，通常用BFS来解决。 
+这道题不可以使用DFS岛屿问题来解决， 因为存在找到某些点，这些点在上一轮的DFS中已经搜索过了，所以如果用岛屿DFS来解决，会有重复计算。 
+因此要用BFS解决。 但是不可以在每个1上面做BFS，那样的话，BFS的次数等于1的个数，我们需要只做一次DFS就可以了 
+所以要一次性的把所有的0全部加入到queue中，然后visited 设置为true。 然后进行一次BFS，每次拿出一个点，都对他上下左右的check，如果这4个上下左右的点在范围内并且之前没有visited，那么update 这个新点的距离
+`=res[newi][newj]=res[i][j]+1; `
+然后加入到queue中，然后设置一下visited
+
+```java
+class Solution {
+    public int[][] dirs = new int[][]{ {0,1},{1,0},{0,-1},{-1,0} };
+    public int[][] updateMatrix(int[][] matrix) {
+        int rows = matrix.length;
+        int cols = matrix[0].length;
+        int[][] res = new int[rows][cols];
+        Queue<int[]> queue = new LinkedList<>();
+        boolean[][] visited = new boolean[rows][cols];  
+      
+        for(int i = 0; i < rows ; i++){
+          for(int j = 0; j < cols ; j++){
+            if(matrix[i][j]==0){
+              queue.offer(new int[]{i,j});
+              visited[i][j]=true;
+            }
+          }
+        }
+      
+        while(!queue.isEmpty()){
+          int[] cell = queue.poll();
+          int i = cell[0]; int j = cell[1];
+          for(int d =0;d<4;d++){
+            int newi = i+dirs[d][0];
+            int newj = j+dirs[d][1];
+            if(newi>=0 && newi<rows && newj>=0 && newj<cols && !visited[newi][newj]){
+              res[newi][newj]=res[i][j]+1;
+              queue.offer(new int[]{newi,newj} );
+              visited[newi][newj]= true;
+            }
+          }
+        }
+        return res;
+    }
+}
+
+```
+
+
+
+
+
+
+
 
 
 
