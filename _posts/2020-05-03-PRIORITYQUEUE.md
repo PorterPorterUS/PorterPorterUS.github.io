@@ -47,8 +47,34 @@ PriorityQueue small=new PriorityQueue<>();
 
 ```c
 PriorityQueue small=new PriorityQueue<>(Collections.reverseOrder());
+```
+
+
+
+#### 特定排序, 按照node.value从小到大排序
+
+```c
+static class Node implements Comparable<Node>{
+
+        int index;
+        int value;
+        public Node(int index,int value){this.index = index; this.value= value;}
+
+        @Override
+        public int compareTo(Node o) {
+            if(o.value<this.value){
+                return 1;
+            }else if(o.value>this.value){
+                return -1;
+            }else{
+                return 0;
+            }
+        }
+    }
+
 
 ```
+
 
 
 
