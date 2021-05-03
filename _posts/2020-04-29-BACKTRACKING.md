@@ -89,9 +89,30 @@ class Solution {
 ```
 
 
+#### 90:Subset 2: 给定一个数组,返回所有的子集.(输入数据存在重复元素)
 
-
-
+```java
+class Solution {
+    public List<List<Integer>> subsets(int[] nums) {
+        List<List<Integer>> res = new ArrayList<>();
+        List<Integer> tmp = new ArrayList<>();
+        dfs(nums,0,tmp,res);
+        return res;
+      
+    }
+  
+    private void dfs(int[] nums, int index, List<Integer> tmp, List<List<Integer>> res){
+      res.add(new ArrayList<>(tmp));
+      for(int i = index; i < nums.length;i++){
+          if(i > index && nums[i] == nums[i-1]) continue; // skip duplicates
+          tmp.add(nums[i]);
+          dfs(nums,i+1,tmp,res);
+          tmp.remove(tmp.size()-1);
+      }
+      
+    }
+}
+```
 
 
 
