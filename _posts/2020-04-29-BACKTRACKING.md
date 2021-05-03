@@ -116,3 +116,49 @@ class Solution {
 
 
 
+#### 46:Permutation: 给定一个数组,返回所有的排列组合.(输入数据不存在重复元素)
+
+
+```c
+
+LEVEL 1: 1   2   3
+
+LEVEL 2: 1   2   3   
+
+LEVEL 3: 1   2   3   
+
+
+每次循环到某一层直接加入到最终结果集合
+```
+
+
+首先tmp加入到res的条件为size == nums.length, 然后start Index 为0
+
+
+```java
+class Solution {
+    public List<List<Integer>> permute(int[] nums) {
+        List<List<Integer>> res=  new ArrayList<>();
+        List<Integer> tmp = new ArrayList<>();
+        dfs(nums,0,tmp,res);
+        return res;
+    }
+  
+    private void dfs(int[] nums,int index,List<Integer> tmp, List<List<Integer>> res){
+      if(tmp.size()==nums.length){
+        res.add(new ArrayList<>(tmp));
+        return;
+      }
+      
+      for(int i = 0 ; i < nums.length; i++){
+        if(tmp.contains(nums[i])) continue;
+        tmp.add(nums[i]);
+        dfs(nums,0,tmp,res);
+        tmp.remove(tmp.size()-1);
+      }
+      
+    }
+}
+```
+
+
