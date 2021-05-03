@@ -52,7 +52,29 @@ Backtracking
 #### 78:Subset 1: 给定一个数组,返回所有的子集.
 
 
+```java
+class Solution {
+    public List<List<Integer>> subsets(int[] nums) {
+        List<List<Integer>> res = new ArrayList<>();
+        List<Integer> tmp = new ArrayList<>();
+        dfs(nums,0,tmp,res);
+        return res;
+      
+    }
+  
+    private void dfs(int[] nums, int index, List<Integer> tmp, List<List<Integer>> res){
+      res.add(new ArrayList<>(tmp));
+      for(int i = index; i < nums.length;i++){
+          tmp.add(nums[i]);
+          dfs(nums,i+1,tmp,res);
+          tmp.remove(tmp.size()-1);
+      }
+      
+    }
+}
 
+
+```
 
 
 
