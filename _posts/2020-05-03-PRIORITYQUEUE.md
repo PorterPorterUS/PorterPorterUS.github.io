@@ -47,6 +47,9 @@ PriorityQueue small=new PriorityQueue<>();
 
 ```c
 PriorityQueue small=new PriorityQueue<>(Collections.reverseOrder());
+
+PriorityQueue<int[]> pq= new PriorityQueue<>((a,b)->b[0]-a[0]);
+
 ```
 
 
