@@ -121,11 +121,11 @@ class Solution {
 
 ```c
 
-LEVEL 1: 1   2   3
+LEVEL 1: 1                2               3
 
-LEVEL 2: 1   2   3   
+LEVEL 2: 123             123            123   
 
-LEVEL 3: 1   2   3   
+LEVEL 3: 123123123   123123123       123123123   
 
 
 每次循环到某一层直接加入到最终结果集合
@@ -194,9 +194,98 @@ public class Solution {
         }
     }
 }
+```
 
 
 
+#### 39 Combination Sum, 找出那些能凑出targetSum的子数组. 
+
+
+```c
+
+LEVEL 1: 1   2   3
+
+LEVEL 2: 1   2   3   
+
+LEVEL 3: 1   2   3   
+
+
+每次循环到某一层直接加入到最终结果集合
+```
+结束条件为 target == 0, index为当前的i. 
+
+```java 
+
+class Solution {
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        List<List<Integer>> res = new ArrayList<>();
+        List<Integer> tmp = new ArrayList<>();
+        dfs(candidates,0,tmp,res,target);
+        return res;      
+
+    }
+  
+    private void dfs(int[] nums, int index, List<Integer> tmp, List<List<Integer>> res,int target){
+      if(target==0){
+        //tmp.add(nums[index]);
+        res.add(new ArrayList<>(tmp));
+        return;
+      }
+      
+      for(int i = index; i < nums.length; i++){
+        if(target>=nums[i]){
+          tmp.add(nums[i]);
+          dfs(nums,i,tmp,res,target-nums[i]);
+          tmp.remove(tmp.size()-1);
+        }
+        
+      }
+      
+    }
+}
+```
+
+
+#### 40 Combination Sum 2, 找出那些能凑出targetSum的子数组. 
+
+
+```c
+
+LEVEL 1: 1   2   3
+
+LEVEL 2: 1   2   3   
+
+LEVEL 3: 1   2   3   
+
+
+每次循环到某一层直接加入到最终结果集合
+```
+结束条件为 target == 0, index为当前的i. 
+
+```java 
+
+class Solution {
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        List<List<Integer>> res = new ArrayList<>();
+        Arrays.sort(candidates);
+        bt(candidates,res,new ArrayList<>(),0,target);
+        return res;
+    }
+  private void bt(int[] nums,List<List<Integer>> res,List<Integer> tmp,int index,int target){
+      if(target==0){
+        res.add(new ArrayList<>(tmp));
+        return;
+      }
+      
+      for(int i = index; i < nums.length; i++){
+          if(target<nums[i] || (i>index && nums[i] == nums[i-1])) continue;
+          tmp.add(nums[i]);
+          bt(nums,res,tmp,i+1,target-nums[i]);
+          tmp.remove(tmp.size()-1);
+      }
+      
+    }
+}
 ```
 
 
