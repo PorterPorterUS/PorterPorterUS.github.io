@@ -75,9 +75,6 @@ class Solution {
 ####  5. 先把当前节点加入到tmp, 进入两层DFS, 然后remove tmp node.
 
 
-
-
-
 ```java
 class Solution {
     public List<List<Integer>> pathSum(TreeNode root, int targetSum) {
@@ -107,9 +104,82 @@ class Solution {
 
 ```
 
+### 560 Subarray Sum Equals K
+
+给定一个整数nums和一个整数k的数组，返回总和等于k的连续子数组的总数。
+
+### 解法: 如果Subarray的总和为target, 有两种情况，一种是从第一个元素加到当前元素总和为target, 第二种情况是从某个位置开始加到当前元素总和为target。
+### 建立一个hashmap, key is presum, value是这个preSum出现了多少次，每次遍历一个元素，产生一个preSum，就更新到hashmap中。
+### 对于情况1 ： 所以在遍历数组的时候，如果preSum == targer, 则count++
+### 对于情况2 ： hashmap中存放的是所有之前出现过的preSum, 如果当前位置的preSum减去某一个之前出现过的preSum的差值为targer, 则证明这段区间内targer出现了，则count+=hashMap[preSum-target];
+
+```java
+class Solution {
+    public int subarraySum(int[] nums, int k) {
+        HashMap<Integer,Integer> map = new HashMap<>();
+        int pre = 0;
+        int count =0 ;
+        map.put(0,1);
+        for(int i = 0 ; i < nums.length; i++){
+            pre+=nums[i];
+            if(map.containsKey(pre-k)){
+              count+= map.get(pre-k);
+            }
+           map.put(pre,map.getOrDefault(pre,0)+1);
+        }
+      return count;
+    }
+}
+
+```
 
 
 
+
+### 113: Path Sum 3
+返回所有的non - root-path 路径, 使得这条路径上的之和为TargetSum.
+#### 和563题一样的解法, 只不过遍历数组变为了遍历Tree
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    HashMap<Integer,Integer> map = new HashMap<>();
+    int k;
+    int count = 0;
+    public int pathSum(TreeNode root, int targetSum) {
+        k = targetSum;
+        dfs(root,0);
+        return count;
+    }
+    private void dfs(TreeNode root, int preSum){
+        if(root == null) return;
+        preSum+=root.val;
+        if(preSum == k) count++;
+        if(map.containsKey(preSum-k)){
+          count+=map.get(preSum-k);
+        }
+        map.put(preSum,map.getOrDefault(preSum,0)+1);
+        dfs(root.left,preSum);
+        dfs(root.right,preSum);
+        map.put(preSum,map.get(preSum)-1);
+    }
+}
+
+```
 
 
 
