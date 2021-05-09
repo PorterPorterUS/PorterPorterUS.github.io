@@ -1,10 +1,13 @@
 <b>Hi, I am a graduate student at the department of computer science at the unversity of Rochester</b>
 <ul>
   {% for post in site.posts %}
+    <li>
    {{post.categories}}
     <a href="{{ post.url }}">    
    {{post.categories}}
         </a>
+    </li>
+  {% endfor %}    
 </ul>
 <ul>
   {% for post in site.posts %}
