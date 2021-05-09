@@ -1,7 +1,7 @@
 ---
 layout: post
 author: Xusheng Ji
-title: "BFS multiple sources"
+title: "BFS multipledsd sources"
 tags: algorithm leetcode
 categories: BFS
 ---
