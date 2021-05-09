@@ -9,9 +9,13 @@
       {% unless post.next %}
         <ul>
       {% else %}
+        {% capture year %}{{ post.categories }}{% endcapture %}
+        {% capture nyear %}{{ post.next.categories }}{% endcapture %}
+        {% if year != nyear %}
           </ul>
           <h3>{{ post.categories }}</h3>
           <ul>
+        {% endif %}  
       {% endunless %}
         <li><time>{{ post.date | date:"%d %b" }} - </time>
           <a href="{{ post.url | prepend: site.baseurl | replace: '//', '/' }}">
