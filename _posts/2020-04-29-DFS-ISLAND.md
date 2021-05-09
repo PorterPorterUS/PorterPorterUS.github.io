@@ -3,7 +3,7 @@ layout: post
 author: Xusheng Ji
 title: "DFS island"
 tags: algorithm leetcode
-ategories: DFS
+categories: DFS
 ---
 
 {% include lib/mathjax.html %}
