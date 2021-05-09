@@ -1,8 +1,9 @@
 ---
 layout: post
 author: Xusheng Ji
-title: "dfs island"
+title: "DFS island"
 tags: algorithm leetcode
+ategories: DFS
 ---
 
 {% include lib/mathjax.html %}
