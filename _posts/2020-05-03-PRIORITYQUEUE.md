@@ -3,6 +3,7 @@ layout: post
 author: Xusheng Ji
 title: "PriorityQueue"
 tags: algorithm leetcode
+categories: TOOLS
 ---
 
 {% include lib/mathjax.html %}
