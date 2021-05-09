@@ -13,7 +13,7 @@
         {% capture nyear %}{{ post.next.date | date: '%Y' }}{% endcapture %}
         {% if year != nyear %}
           </ul>
-          <h3>{{ post.date | date: '%Y' }}</h3>
+          <h3>{{ post.category }}</h3>
           <ul>
         {% endif %}
       {% endunless %}
