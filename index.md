@@ -2,7 +2,7 @@
 ### DFS->>> 
 <ul>
   {% for post in site.posts %}
-    {{if post.categories == "DFS"}}
+    {if post.categories == "DFS"}
         <li>
         <a href="{{ post.url }}">
         
