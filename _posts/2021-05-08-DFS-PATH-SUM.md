@@ -1,8 +1,9 @@
 ---
 layout: post
 author: Xusheng Ji
-title: "dfs PathSum"
+title: "DFS PathSum"
 tags: algorithm leetcode
+categories: DFS
 ---
 
 {% include lib/mathjax.html %}
