@@ -81,8 +81,26 @@ static class Node implements Comparable<Node>{
 
 
 
+#### 特定排序, 按照entry.price从小到大排序
 
+```java
+private static class Entry implements Comparable<Entry> {
+	int city; // 为了判断是否达到终点,
+	int price; // 为了根据price在pq中排序
+	int stops; // 为了判断是否达到K步 
+	Entry(int city, int price, int stops) {
+		this.city = city;
+		this.price = price;
+		this.stops = stops;
+	}
+    // 该对象存储的话，是按照price进行排序的
+	@Override
+	public int compareTo(Entry that) {
+		return this.price - that.price;
+	}
+}
 
+```
 
 
 
