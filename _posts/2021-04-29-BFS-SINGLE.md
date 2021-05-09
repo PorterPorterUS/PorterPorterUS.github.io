@@ -1,7 +1,7 @@
 ---
 layout: post
 author: Xusheng Ji
-title: "Bfs single source"
+title: "BFS single source"
 tags: algorithm leetcode
 ---
 
