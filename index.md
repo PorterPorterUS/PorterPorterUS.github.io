@@ -1,6 +1,6 @@
 <b>Hi, I am a graduate student at the department of computer science at the unversity of Rochester</b>
 <ul>
-  {% for post in site.categories.posts %}
+  {% for post in site.posts %}
     <li>
       <a href="{{ post.url }}">
         {{ post.title }}
