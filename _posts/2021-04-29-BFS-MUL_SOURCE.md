@@ -1,8 +1,9 @@
 ---
 layout: post
 author: Xusheng Ji
-title: "Bfs multiple sources"
+title: "BFS multiple sources"
 tags: algorithm leetcode
+categories: BFS
 ---
 
 {% include lib/mathjax.html %}
