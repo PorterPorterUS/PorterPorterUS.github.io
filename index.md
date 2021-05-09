@@ -1,10 +1,7 @@
  
 <section>
-  {% if site.posts[1] %}
-
-    {% capture firstpostyear %}{{ site.posts[1].categories }}{% endcapture %}
-    <h3>{{site.posts[1].categories}}</h3>
-
+  {% if site.posts[0] %}
+ 
     {%for post in site.posts %}
       {% unless post.next %}
         <ul>
