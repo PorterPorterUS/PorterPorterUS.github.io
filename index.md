@@ -3,7 +3,7 @@
  {% if site.posts[0] %}
 
      
-     <h3>site.posts[0].categories</h3>
+     <h3>{{site.posts[0].categories}}</h3>
     
   
     {%for post in site.posts %}
