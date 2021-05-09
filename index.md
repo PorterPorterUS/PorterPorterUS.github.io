@@ -2,6 +2,9 @@
 <ul>
   {% for post in site.posts %}
    {{post.categories}}
+    <a href="{{ post.url }}">    
+   {{post.categories}}
+        </a>
 </ul>
 <ul>
   {% for post in site.posts %}
