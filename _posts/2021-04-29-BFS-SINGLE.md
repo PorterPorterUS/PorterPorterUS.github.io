@@ -3,6 +3,7 @@ layout: post
 author: Xusheng Ji
 title: "BFS single source"
 tags: algorithm leetcode
+categories: BFS
 ---
 
 {% include lib/mathjax.html %}
