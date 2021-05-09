@@ -1,6 +1,6 @@
 <b>Hi, I am a graduate student at the department of computer science at the unversity of Rochester</b>
 <ul>
-  {% for category in site.categories %}
+  
   {% for post in site.posts %}
   {% if category == post.categories %}
     <li>
@@ -14,5 +14,5 @@
         
     
   {% endfor %}
-  {% endfor %}
+  
 </ul>
