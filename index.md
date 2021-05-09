@@ -1,7 +1,6 @@
  
 <section>
-  {% if site.posts[0] %}
- 
+  
     {%for post in site.posts %}
       {% unless post.next %}
         <ul>
@@ -22,5 +21,5 @@
     {% endfor %}
     </ul>
 
-  {% endif %}
+ 
 </section>
