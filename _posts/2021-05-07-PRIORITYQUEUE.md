@@ -103,4 +103,12 @@ private static class Entry implements Comparable<Entry> {
 ```
 
 
+#### 特定排序, 小顶堆, Key是字符串, Value是频率, 首先按照频率从小到大排序，如果频率相同则按照字符串的字母顺序从小到大排序
+#### 所以PQ.PEEK 处的元素首先是频率小的，然后如果频率一样，那么字母顺序的排在队列顶端. 
 
+```java
+PriorityQueue<Map.Entry<String, Integer>> pq = new PriorityQueue<>(
+                 (a,b) -> a.getValue()==b.getValue() ? b.getKey().compareTo(a.getKey()) : a.getValue()-b.getValue()
+        )
+
+```
