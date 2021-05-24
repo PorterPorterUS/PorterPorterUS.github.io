@@ -312,7 +312,7 @@ class Solution {
 ### 建立字典树的办法: 首先创立一个空的头节点, 再设置一个指针，每次遍历一个新的字符串的时候，都先把指针指向头节点，然后每次遍历一个字符串的字符，都查看指针.children[c-'a']是否存在，如果存在就继续下一个字符，如果不存在就建立一个空节点，然后继续下一个字符，最终遍历完整个字符串的话，就把这个节点的node.StringValue = String.
 ### DFS内部逻辑：首先判断出界++然后判断字典树中的元素是否存在++然后存储临时变量+++然后DFS四个方向
 ### DFS参数：1.grid 2.grid的位置 3.res结果集合 4.TrieNode root
-### 时间复杂度分析：For naive approach, runtime is O(m * n * num_words * min(4^wl, m * n)). For trie approach, runtime is O(m * n * min(4^wl, m * n) + wl * num_words)
+### 时间复杂度分析：m*n是grid的大小，WL是所有单词的平均长度。For naive approach, runtime is O(m * n * num_words * min(4^wl, m * n)). For trie approach, runtime is O(m * n * min(4^wl, m * n) + wl * num_words). WL*num_words是建立TrieTree的时间复杂度， min(4^wl, m * n)是因为有可能M*N会比4^WL要大，而DFS最多是遍历M*N次
 
 ```java
 class Solution {
@@ -368,13 +368,5 @@ class Solution {
 }
 ```
 
-``
-Someone correct me if I'm missing something, but this seems wrong to me. In the naive approach, you iterate through the word list, and for each word you iterate through every cell, and for each cell you run DFS. Note importantly that only in the DFS do you iterate through the word length of every word, in the outermost loop I described you are just iterating through the number of words. So, I believe the runtime would be O(m * n * num_words * 4^wl). But, in fact this is wrong too I think because if you have a decently sized word 4^wl may be larger than m * n, but DFS can only go to m * n maximum iterations, so I think runtime is in fact O(m * n * num_words * min(4^wl, m * n)).
-
-Now, how does this change for a trie? In the worst case, the words will share NO prefixes, and so traversing the tree will be equivalent to traversing the list of words, and thus the runtime is EXACTLY the same.
-
-The runtime does get better in the best case, if all the words share the same prefix until their last letter, in which case you only have to iterate through one word basically and you get a runtime of O(m * n * min(4^wl, m * n)). However, this is slightly wrong because to create the trie you need to iterate through wl * num_words, so the runtime is actually O(m * n * min(4^wl, m * n) + wl * num_words). (Indeed, this factor was in the other runtimes too but it was insignificant and thus dropped there.)
-``
-
-
+ 
 
