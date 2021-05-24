@@ -192,8 +192,70 @@ class Solution {
 ### 2.3 对于存在dot的String的搜索的复杂度： M是单词的长度,假如最坏的情况是输入的字符串全部为"...........", 这样的话时间复杂度为O(26^M),因为针对每一个小点都要搜索26个孩子，空间复杂度为O(M), 因为每次遍历到一个字符，就要调用一次DFS，所以为O(M).
 
 
+### 3.搜索部分的思路：
+### 如果是正常字符串，没有dot, 假如字符串为"abcd", 每次遍历到一个字符的时候, 就去对应的字典树节点中查询是否存在
+### 如果字符串中带有dot, 例如“abc.defg”, 那么遍历到"."的时候, 要查看c的所有26个孩子，如果某个孩子不为空，例如字典树中有"c->a->d",则访问到a，然后把defg当作输入字符串再次传入DFS
+```java
+class WordDictionary {
+    class TrieNode{
+      boolean word ;
+      TrieNode[] children;
+      public TrieNode(){
+        word = false;
+        children = new TrieNode[26];
+      }
+    }
+    TrieNode root;
+    /** Initialize your data structure here. */
+    public WordDictionary() {
+        root = new TrieNode();
+    }
+    
+    public void addWord(String word) {
+        TrieNode cur = root;
+        for(char c: word.toCharArray()){
+            if(cur.children[c-'a'] == null){
+                cur.children[c-'a'] =new TrieNode();
+            }
+          cur = cur.children[c-'a'];
+        }
+      cur.word = true;
+    }
+    
+    public boolean search(String word) {
+      return dfs(word,root);  
+      
+    }
+  
+    private boolean dfs(String word,TrieNode root){
+       TrieNode cur = root;
+       for(int i = 0 ; i < word.length(); i++){
+         if(word.charAt(i)!='.'&&cur.children[word.charAt(i)-'a']==null) return false;
+         if(word.charAt(i)=='.'){
+           for(int j = 0; j < 26; j++){
+             if(cur.children[j]!=null){
+               if(dfs(word.substring(i+1),cur.children[j])){
+                 return true;
+               }
+             }
+           }
+           return false;
+         }
+         cur = cur.children[word.charAt(i)-'a'];
+         
+       }
+      return cur.word;
+    }
+}
 
+/**
+ * Your WordDictionary object will be instantiated and called as such:
+ * WordDictionary obj = new WordDictionary();
+ * obj.addWord(word);
+ * boolean param_2 = obj.search(word);
+ */
 
+```
 
 
 
