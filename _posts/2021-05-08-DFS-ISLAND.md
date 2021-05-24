@@ -270,6 +270,8 @@ class Solution {
 ### 79 Word Search 
 ### 题目意思, 给一个字符串，给一个字母板, 求问字符串是否出现在字母板中
 ### 解法：利用岛屿问题的DFS模版，如果某个字母板位置的字符等于字符串中的第一个字符，并且DFS返回true，则证明找到这个字符串了
+### DFS的参数:1.图,也就是grid 2. 当前图所在的位置 3.字，也就是word 4.当前word所在的位置
+### DFS的内部逻辑：首先判断index>=String.length则证明已经搜索过每个字符串了于是就可以return true ++++++ 然后判断出界, 然后存储临时变量+++然后四个方向DFS
 ### 复杂度分析：空间复杂度为O(L),L是word的长度
 ### 复杂度分析：时间复杂度为O(M * N * 4^L) where M*N is the size of the board and we have 4^L for each cell because of the recursion. 
 ```java
@@ -308,10 +310,71 @@ class Solution {
 ### 题目意思, 给N个字符串，给一个字母板, 求问N个字符串有哪些出现在字母板中，如果出现了请把他们都打印出来
 ### 解法: 凡是查看一个字符串是否出现在一堆字符串集群中的问题，请使用字典树TrieTree. 可以把着N个字符串建立为TrieTree,然后在字母板中的每次DFS遍历，都把当前字符串放入到TrieTree中查看是否存在。
 ### 建立字典树的办法: 首先创立一个空的头节点, 再设置一个指针，每次遍历一个新的字符串的时候，都先把指针指向头节点，然后每次遍历一个字符串的字符，都查看指针.children[c-'a']是否存在，如果存在就继续下一个字符，如果不存在就建立一个空节点，然后继续下一个字符，最终遍历完整个字符串的话，就把这个节点的node.StringValue = String.
+### DFS内部逻辑：首先判断出界++然后判断字典树中的元素是否存在++然后存储临时变量+++然后DFS四个方向
+### DFS参数：1.grid 2.grid的位置 3.res结果集合 4.TrieNode root
+### 时间复杂度分析：For naive approach, runtime is O(m * n * num_words * min(4^wl, m * n)). For trie approach, runtime is O(m * n * min(4^wl, m * n) + wl * num_words)
 
+```java
+class Solution {
+    class TrieNode{
+      String word;
+      TrieNode[] children = new TrieNode[26];
+    }
+    private TrieNode buildTree(String[] words){
+        TrieNode root = new TrieNode();
+        for(String word: words){
+           TrieNode cur = root;
+            for(char c: word.toCharArray()){
+                if(cur.children[c-'a']==null){
+                  cur.children[c-'a'] = new TrieNode();
+                }
+               cur = cur.children[c-'a'];
+            }
+          cur.word = word;
+        }
+        return root;
+    }
+    
+    public List<String> findWords(char[][] board, String[] words) {
+        int rows = board.length;
+        int cols = board[0].length;
+       List<String> res= new ArrayList<>();
+        TrieNode root = buildTree(words);
+        for(int i = 0; i < rows; i++){
+          for(int j = 0; j < cols; j++){
+              dfs(i,j,board,res,root);
+          }
+        }
+      return res;
+    }
+    
+    private void dfs(int i, int j,char[][] board, List<String> res,TrieNode root){
+      if(i<0 || j<0 || i==board.length || j==board[0].length || board[i][j] == '*') return;
+      char tmp = board[i][j];
+      if(root.children[tmp-'a']==null) return;
+      root = root.children[tmp-'a'];
+      if(root.word!=null){
+        res.add(root.word);
+        root.word = null;
+      }
+      board[i][j] = '*';
+      dfs(i+1,j,board,res,root);
+      dfs(i-1,j,board,res,root);
+      dfs(i,j+1,board,res,root);
+      dfs(i,j-1,board,res,root);
+      
+      board[i][j] = tmp;
+    }
+}
+```
 
+``
+Someone correct me if I'm missing something, but this seems wrong to me. In the naive approach, you iterate through the word list, and for each word you iterate through every cell, and for each cell you run DFS. Note importantly that only in the DFS do you iterate through the word length of every word, in the outermost loop I described you are just iterating through the number of words. So, I believe the runtime would be O(m * n * num_words * 4^wl). But, in fact this is wrong too I think because if you have a decently sized word 4^wl may be larger than m * n, but DFS can only go to m * n maximum iterations, so I think runtime is in fact O(m * n * num_words * min(4^wl, m * n)).
 
+Now, how does this change for a trie? In the worst case, the words will share NO prefixes, and so traversing the tree will be equivalent to traversing the list of words, and thus the runtime is EXACTLY the same.
 
+The runtime does get better in the best case, if all the words share the same prefix until their last letter, in which case you only have to iterate through one word basically and you get a runtime of O(m * n * min(4^wl, m * n)). However, this is slightly wrong because to create the trie you need to iterate through wl * num_words, so the runtime is actually O(m * n * min(4^wl, m * n) + wl * num_words). (Indeed, this factor was in the other runtimes too but it was insignificant and thus dropped there.)
+``
 
 
 
