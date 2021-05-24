@@ -42,6 +42,9 @@ DFS 字典树问题
 #### 3.boolean search(String word) Returns true if the string word is in the trie (i.e., was inserted before), and false otherwise.
 #### 4.boolean startsWith(String prefix) Returns true if there is a previously inserted string word that has the prefix prefix, and false otherwise
 
+### 复杂度分析：
+### 构建TrieTree的时间复杂度为O(M), M是单词的长度。构建TrieTree的空间复杂度为O(M), M是单词的长度。In each iteration of the algorithm, we either examine or create a node in the trie till we reach the end of the key. This takes only mm operations
+### 
 
 ```java
 class Trie {
