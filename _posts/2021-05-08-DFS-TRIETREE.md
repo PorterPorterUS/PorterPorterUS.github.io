@@ -36,15 +36,16 @@ categories: DFS
 DFS 字典树问题
 
 ### 208.mplement Trie (Prefix Tree)
-### 构建字典树,完成以下函数
+### 1. 构建字典树,完成以下函数
 #### 1.Trie() Initializes the trie object.
 #### 2.void insert(String word) Inserts the string word into the trie
 #### 3.boolean search(String word) Returns true if the string word is in the trie (i.e., was inserted before), and false otherwise.
 #### 4.boolean startsWith(String prefix) Returns true if there is a previously inserted string word that has the prefix prefix, and false otherwise
 
-### 复杂度分析：
-### 构建TrieTree的时间复杂度为O(M), M是单词的长度。构建TrieTree的空间复杂度为O(M), M是单词的长度。In each iteration of the algorithm, we either examine or create a node in the trie till we reach the end of the key. This takes only mm operations
-### 
+### 2. 复杂度分析：
+### 2.1 构建的复杂度： 构建TrieTree的时间复杂度为O(M), M是单词的长度。在遍历输入字符串的每一步，我们要不就是创建一个新节点，要不就是访问这个节点，所以时间复杂度为O(M)。构建TrieTree的空间复杂度为O(M), M是单词的长度。 在最坏情况下，我们每一步都要创建一个新的node，所以空间复杂度最坏为O(M).
+### 2.2 对于搜索的复杂度： M是单词的长度,时间复杂度为O(M),空间复杂度为O(1).
+ 
 
 ```java
 class Trie {
@@ -180,12 +181,15 @@ class Solution {
 ```
 
 ### 211. Design Add and Search Words Data Structure
-### 构建字典树，完成以下函数
+### 1. 构建字典树，完成以下函数
 #### WordDictionary() Initializes the object.
 #### void addWord(word) Adds word to the data structure, it can be matched later.
 #### bool search(word) Returns true if there is any string in the data structure that matches word or false otherwise. word may contain dots '.' where dots can be matched with any letter
 
-
+### 2. 复杂度分析：
+### 2.1 构建的复杂度： 构建TrieTree的时间复杂度为O(M), M是单词的长度。在遍历输入字符串的每一步，我们要不就是创建一个新节点，要不就是访问这个节点，所以时间复杂度为O(M)。构建TrieTree的空间复杂度为O(M), M是单词的长度。 在最坏情况下，我们每一步都要创建一个新的node，所以空间复杂度最坏为O(M).
+### 2.2 对于不存在dot的String的搜索的复杂度： M是单词的长度,时间复杂度为O(M),空间复杂度为O(1).
+### 2.3 对于存在dot的String的搜索的复杂度： M是单词的长度,假如最坏的情况是输入的字符串全部为"...........", 这样的话时间复杂度为O(26^M),因为针对每一个小点都要搜索26个孩子，空间复杂度为O(M), 因为每次遍历到一个字符，就要调用一次DFS，所以为O(M).
 
 
 
