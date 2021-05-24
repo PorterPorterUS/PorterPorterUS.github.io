@@ -1,3 +1,15 @@
+---
+layout: post
+author: Xusheng Ji
+title: "DFS trie tree"
+tags: algorithm leetcode
+categories: DFS
+---
+
+{% include lib/mathjax.html %}
+
+
+<script type="text/javascript" async
   src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
 </script>
 
