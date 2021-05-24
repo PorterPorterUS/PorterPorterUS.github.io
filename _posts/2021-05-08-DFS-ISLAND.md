@@ -318,53 +318,61 @@ class Solution {
 class Solution {
     class TrieNode{
       String word;
-      TrieNode[] children = new TrieNode[26];
+      TrieNode[] children;
+      public TrieNode(){
+        children = new TrieNode[26];
+        word = null;
+      }
     }
+    private TrieNode root = new TrieNode();
+     
+  
     private TrieNode buildTree(String[] words){
-        TrieNode root = new TrieNode();
-        for(String word: words){
-           TrieNode cur = root;
-            for(char c: word.toCharArray()){
-                if(cur.children[c-'a']==null){
-                  cur.children[c-'a'] = new TrieNode();
-                }
-               cur = cur.children[c-'a'];
+      //TrieNode root = new TrieNode();
+      for(String word:words){
+          TrieNode cur =  root;
+          for(char c: word.toCharArray()){
+            if(cur.children[c-'a']==null){
+              cur.children[c-'a'] = new TrieNode();
             }
-          cur.word = word;
-        }
+            cur = cur.children[c-'a'];
+          }
+        cur.word = word;
+      }
         return root;
     }
-    
     public List<String> findWords(char[][] board, String[] words) {
         int rows = board.length;
         int cols = board[0].length;
-       List<String> res= new ArrayList<>();
+        List<String> res = new ArrayList<>();
         TrieNode root = buildTree(words);
-        for(int i = 0; i < rows; i++){
+        for(int i = 0 ; i < rows; i++){
           for(int j = 0; j < cols; j++){
-              dfs(i,j,board,res,root);
+              dfs(i,j,board,root,res);
           }
         }
-      return res;
+        return res;
+    }
+    private void dfs(int i, int j, char[][] board, TrieNode root,List<String> res){
+        if(i<0 || i==board.length || j<0 || j==board[0].length || board[i][j] == '*'){
+          return;
+        }
+        char tmp = board[i][j];
+        if(root.children[tmp-'a']==null) return;
+        root = root.children[tmp-'a'];
+        if(root.word!=null){
+          res.add(root.word);
+          root.word = null;
+        }
+       board[i][j] = '*';
+      dfs(i+1,j,board,root,res);
+      dfs(i-1,j,board,root,res);
+      dfs(i,j+1,board,root,res);
+      dfs(i,j-1,board,root,res);
+        
+       board[i][j] = tmp; 
     }
     
-    private void dfs(int i, int j,char[][] board, List<String> res,TrieNode root){
-      if(i<0 || j<0 || i==board.length || j==board[0].length || board[i][j] == '*') return;
-      char tmp = board[i][j];
-      if(root.children[tmp-'a']==null) return;
-      root = root.children[tmp-'a'];
-      if(root.word!=null){
-        res.add(root.word);
-        root.word = null;
-      }
-      board[i][j] = '*';
-      dfs(i+1,j,board,res,root);
-      dfs(i-1,j,board,res,root);
-      dfs(i,j+1,board,res,root);
-      dfs(i,j-1,board,res,root);
-      
-      board[i][j] = tmp;
-    }
 }
 ```
 
