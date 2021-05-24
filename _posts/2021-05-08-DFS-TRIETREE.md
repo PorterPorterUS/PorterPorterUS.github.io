@@ -34,3 +34,17 @@ categories: DFS
 </script>
 
 DFS 字典树问题
+
+### 208.mplement Trie (Prefix Tree)
+### 构建字典树,完成以下函数
+#### 1.Trie() Initializes the trie object.
+#### 2.void insert(String word) Inserts the string word into the trie
+#### 
+
+
+
+
+
+
+
+
