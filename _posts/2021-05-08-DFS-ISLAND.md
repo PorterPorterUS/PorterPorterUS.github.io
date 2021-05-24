@@ -267,8 +267,41 @@ class Solution {
 `end` `end` `end` `end` `end` `end`
 
 
+### 79 Word Search 
+### 题目意思, 给一个字符串，给一个字母板, 求问字符串是否出现在字母板中
+### 解法：利用岛屿问题的DFS模版，如果某个字母板位置的字符等于字符串中的第一个字符，并且DFS返回true，则证明找到这个字符串了
+### 复杂度分析：空间复杂度为O(L),L是word的长度
+### 复杂度分析：时间复杂度为O(M * N * 4^L) where M*N is the size of the board and we have 4^L for each cell because of the recursion. 
+```java
+class Solution {
+    public boolean exist(char[][] board, String word) {
+        int rows = board.length;
+        int cols = board[0].length;
+        for(int i = 0; i < rows; i++){
+          for(int j = 0; j < cols; j++){
+             if(board[i][j] == word.charAt(0) && dfs(board,i,j,word,0)){
+                return true;
+             }
+          }
+        }
+        return false;
+    }
+  
+    private boolean dfs(char[][] grid,int i, int j, String word, int index){
+      if(index>=word.length()) return true;
+      if(i<0 || i== grid.length || j<0 || j==grid[0].length || word.charAt(index)!=grid[i][j] || grid[i][j] == '*') return false;
+      char tmp = grid[i][j];
+      grid[i][j] = '*';
+      if(dfs(grid,i+1,j,word,index+1) ||dfs(grid,i,j+1,word,index+1)||dfs(grid,i-1,j,word,index+1)||dfs(grid,i,j-1,word,index+1) ){
+        return true;
+      }
+      
+      grid[i][j] = tmp;
+      return false;
+    }
+}
 
-
+```
 
 
 
