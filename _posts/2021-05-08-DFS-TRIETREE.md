@@ -194,18 +194,18 @@ class Solution {
 
 ### 3.搜索部分的思路：
 ### 如果是正常字符串，没有dot, 假如字符串为"abcd", 每次遍历到一个字符的时候, 就去对应的字典树节点中查询是否存在
-### 如果字符串中带有dot, 例如“abc.defg”, 那么遍历到"."的时候, 要查看c的所有26个孩子，如果某个孩子不为空，例如字典树中有"c->a->d",则访问到a，然后把defg当作输入字符串再次传入DFS
+### 如果字符串中带有dot, 例如“abc.defg”, 那么遍历到"."的时候, 要查看"."对应的level中所有的节点，例如"."在"“abc.defg"中是第4个字符，那么就要查看c的第4层的所有儿子节点, 遍历每个儿子节点，如果这个儿子不为空，那么就把这个儿子节点和字符串“(儿子)defg”传入下一层DFS中。
 ```java
 class WordDictionary {
     class TrieNode{
-      boolean word ;
+      boolean word;
       TrieNode[] children;
       public TrieNode(){
         word = false;
         children = new TrieNode[26];
       }
     }
-    TrieNode root;
+    private TrieNode root;
     /** Initialize your data structure here. */
     public WordDictionary() {
         root = new TrieNode();
@@ -213,36 +213,35 @@ class WordDictionary {
     
     public void addWord(String word) {
         TrieNode cur = root;
-        for(char c: word.toCharArray()){
-            if(cur.children[c-'a'] == null){
-                cur.children[c-'a'] =new TrieNode();
+        for(char c : word.toCharArray()){
+            if(cur.children[c-'a']==null){
+              cur.children[c-'a'] = new TrieNode();
             }
           cur = cur.children[c-'a'];
         }
-      cur.word = true;
+        cur.word = true;
     }
     
     public boolean search(String word) {
-      return dfs(word,root);  
-      
+        return dfs(word,root);
     }
-  
-    private boolean dfs(String word,TrieNode root){
-       TrieNode cur = root;
-       for(int i = 0 ; i < word.length(); i++){
-         if(word.charAt(i)!='.'&&cur.children[word.charAt(i)-'a']==null) return false;
-         if(word.charAt(i)=='.'){
-           for(int j = 0; j < 26; j++){
-             if(cur.children[j]!=null){
-               if(dfs(word.substring(i+1),cur.children[j])){
-                 return true;
-               }
-             }
-           }
-           return false;
-         }
-         cur = cur.children[word.charAt(i)-'a'];
-         
+    
+    public boolean dfs(String word,TrieNode cur){
+       for(int i = 0; i < word.length(); i++){
+          char c = word.charAt(i);
+          if(c == '.' || cur.children[c-'a']==null){
+            if(c == '.'){
+              for(TrieNode child:cur.children){
+                if(child == null) continue;
+                if(dfs(word.substring(i+1),child)){
+                  return true;
+                }
+              }
+            }
+            return false;
+          }else{
+            cur = cur.children[c-'a'];
+          }
        }
       return cur.word;
     }
