@@ -39,7 +39,6 @@ DFS 岛屿问题
 (一个二维矩阵, 有1和0, 找出有多少个连续的1) 
  碰到一个1就开始DFS，内部将此位置设置为0，然后上下左右四个方向深度搜索, 不使用BackTracking。
  ```c
- 
  class Solution {
     public int numIslands(char[][] grid) {
         int rows = grid.length;
@@ -107,6 +106,9 @@ class Solution {
     }
 }
  ```
+### 时间复杂度和200题完全一样
+`end`
+`end`
 
 #### 694: 不同岛屿的面积
 一个二维矩阵, 有1和0, 找出最多连续的1的个数) 碰到一个1就开始DFS，内部将此位置设置为0，然后上下左右四个方向深度搜索,不用使用BackTracking,      
