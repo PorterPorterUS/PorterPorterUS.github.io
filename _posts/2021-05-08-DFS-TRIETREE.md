@@ -256,6 +256,75 @@ class WordDictionary {
 
 ```
 
+### 421. Maximum XOR of Two Numbers in an Array
+
+### 给定一个整数数组nums，返回nums [i] XOR nums [j]的最大结果，其中0 <= i≤j <n。
+这道题目还是蛮有意思的，用到前缀树的思想来将复杂度降低到 O(N)。
+我们分两步来解决这个问题：
+
+构建二进制前缀树
+具体来说就是利用数的二进制表示，从高位到低位构建一棵树（因为只有0和1 两个值，所以是一棵二叉树），每个从根节点到叶子节点的路径都表示一个数。（构建的树看下图）
+
+搜索前缀树
+然后遍历数组中的数字，将每一个二进制位，在对应的层中找到一个异或的最大值，也就是：如果是1，找0的那条路径，如果是0，找1的那条路径。
+这样搜索下来的路径就是这个数字和整个数组异或的最大值，看下图
+
+![image](https://user-images.githubusercontent.com/60555283/119420773-48c22c80-bccb-11eb-97a5-444fed708433.png)
+
+具体步骤是：
+对于2， 二进制从高到低是 0，0，1，0
+
+第一步：二进制位是0，我们到第四层去选择，有1，我们选择1这个节点，异或计算结果是1
+第二步：二进制位是0，在第三层，上一步选择的节点没有为1的子节点，所以我们只能选择0，异或计算结果是0
+第三步：二进制位是1，在第二层，上一步选择的节点的子节点下有0的节点，我们选择0，异或计算结果是1
+第四部：二进制位是0，在第一层，上一步选择的节点的子节点下只有一个0，所以选择0，异或计算结果是0
+所以我们异或的结果是1010， 十进制表示是10.
+
+```java
+class Solution {
+     class Trie {
+        Trie[] children;
+        public Trie() {
+            children = new Trie[2];
+        }
+    }
+    
+    public int findMaximumXOR(int[] nums) {
+        if(nums == null || nums.length == 0) {
+            return 0;
+        }
+        // Init Trie.
+        Trie root = new Trie();
+        for(int num: nums) {
+            Trie curNode = root;
+            for(int i = 31; i >= 0; i --) {
+                int curBit = (num >>> i) & 1;
+                if(curNode.children[curBit] == null) {
+                    curNode.children[curBit] = new Trie();
+                }
+                curNode = curNode.children[curBit];
+            }
+        }
+        int max = Integer.MIN_VALUE;
+        for(int num: nums) {
+            Trie curNode = root;
+            int curSum = 0;
+            for(int i = 31; i >= 0; i --) {
+                int curBit = (num >>> i) & 1;
+                if(curNode.children[curBit ^ 1] != null) {
+                    curSum += (1 << i);
+                    curNode = curNode.children[curBit ^ 1];
+                }else {
+                    curNode = curNode.children[curBit];
+                }
+            }
+            max = Math.max(curSum, max);
+        }
+        return max;
+    }
+}
+
+```
 
 
 
