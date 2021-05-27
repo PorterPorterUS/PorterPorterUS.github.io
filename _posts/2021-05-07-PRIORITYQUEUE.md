@@ -55,7 +55,10 @@ PriorityQueue<int[]> pq= new PriorityQueue<>((a,b)->b[0]-a[0]);
 
 
 
-#### 特定排序, 按照node.value从小到大排序
+#### 使得PriorityQueue中的对象(node.value从小到大排序)能够自动排序，
+#### --> 先让class实现Comparable接口,然后修改class的compareTo方法
+ 
+ 
 
 ```c
 static class Node implements Comparable<Node>{
