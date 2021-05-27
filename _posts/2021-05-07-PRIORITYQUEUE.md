@@ -82,9 +82,9 @@ static class Node implements Comparable<Node>{
 
 ```
 
+#### 使得PriorityQueue中的对象(按照entry.price从小到大排序)能够自动排序，
+#### --> 先让class实现Comparable接口,然后修改class的compareTo方法
 
-
-#### 特定排序, 按照entry.price从小到大排序
 
 ```java
 private static class Entry implements Comparable<Entry> {
