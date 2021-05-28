@@ -296,39 +296,31 @@ class Solution {
 
 ```java
 class Solution {
-   private int max = 0;
+    private int res = 0;
     public int maxLength(List<String> arr) {
-        dfs(arr, 0, "");
-        return max;
+      dfs(arr,0,"");  
+      return res;
     }
-
-    public void dfs(List<String> arr, int start, String str) {
-        
-        if (isUnique(str)){
-          max = Math.max(max, str.length());
-        } 
-        if (start == arr.size() || !isUnique(str))  return;
-        for(int i = start ; i < arr.size(); i++){
-            dfs(arr,i+1,str+arr.get(i));
-        }
-        
-        
+    
+    private void dfs(List<String> arr, int start, String s){
+      if(!valid(s)) return;
+      res = Math.max(res,s.length());
+      for(int i = start ; i < arr.size(); i++){
+        dfs(arr,i+1,s+arr.get(i));
+      }
+      
     }
-  
-  
-    private boolean isUnique(String s){
-        int[] hash = new int[26];
-        for(char c: s.toCharArray()){
-          hash[c-'a']++;
-        }
-        for(int i = 0; i < hash.length; i++){
-            if(hash[i]>1) return false;
-        }
+    private boolean valid(String s){
+      int[] hash = new int[26];
+      for(char c: s.toCharArray()){
+        hash[c-'a']++;
+      }
+      for(int i = 0 ; i < 26; i++){
+        if(hash[i]>1) return false;
+      }
       return true;
     }
-  }
-
-
+}
 ```
 
 
