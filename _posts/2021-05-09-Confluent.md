@@ -39,6 +39,75 @@ Confluent题目
 
 ### 44.wildcard matching
 ```java
+class Solution {
+public:
+    bool isMatch(string s, string p) {
+        int i = 0, j = 0, iStar = -1, jStar = -1, m = s.size(), n = p.size();
+        while (i < m) {
+            if (j < n && (s[i] == p[j] || p[j] == '?')) {
+                ++i, ++j;//i，j向后瞬移
+            } else if (j < n && p[j] == '*') {//记录如果之后序列匹配不成功时， i和j需要回溯到的位置
+                iStar = i;//记录星号
+                jStar = j++;//记录星号 并且j移到下一位 准备下个循环s[i]和p[j]的匹配
+            } else if (iStar >= 0) {//发现字符不匹配且没有星号出现 但是istar>0 说明可能是*匹配的字符数量不对 这时回溯
+                i = ++iStar;//i回溯到istar+1 因为上次从s串istar开始对*的尝试匹配已经被证明是不成功的（不然不会落入此分支） 所以需要从istar+1再开始试 同时inc istar 更新回溯位置
+                j = jStar + 1;//j回溯到jstar+1 重新使用p串*后的部分开始对s串istar（这个istar在上一行已经inc过了）位置及之后字符的匹配 
+            } else return false;
+        }
+        while (j < n && p[j] == '*') ++j;//去除多余星号
+        return j == n;
+    }
+};
+
+```
+
+
+```java
+// greedy solution with idea of DFS
+// starj stores the position of last * in p
+// last_match stores the position of the previous matched char in s after a *
+// e.g. 
+// s: a c d s c d
+// p: * c d
+// after the first match of the *, starj = 0 and last_match = 1
+// when we come to i = 3 and j = 3, we know that the previous match of * is actually wrong, 
+// (the first branch of DFS we take is wrong)
+// then it resets j = starj + 1 
+// since we already know i = last_match will give us the wrong answer
+// so this time i = last_match+1 and we try to find a longer match of *
+// then after another match we have starj = 0 and last_match = 4, which is the right solution
+// since we don't know where the right match for * ends, we need to take a guess (one branch in DFS), 
+// and store the information(starj and last_match) so we can always backup to the last correct place and take another guess.
+
+ bool isMatch(string s, string p) {
+        int i = 0, j = 0;
+        int m = s.length(), n = p.length();
+        int last_match = -1, starj = -1;
+        while (i < m){
+            if (j < n && (s[i] == p[j] || p[j] == '?')){
+                i++; j++;
+            }
+            else if (j < n && p[j] == '*'){
+                starj = j;
+                j++;
+                last_match = i;
+            }
+            else if (starj != -1){
+                j = starj + 1;
+                last_match++;
+                i = last_match;
+            }
+            else return false;
+        }
+        while (p[j] == '*' && j <n) j++;
+        return j == n;
+    }
+
+```
+
+
+
+```java
 
 /**
  * General Idea: Credit: https://leetcode.com/problems/wildcard-matching/discuss/370736/Detailed-Intuition-From-Brute-force-to-Bottom-up-DP 
