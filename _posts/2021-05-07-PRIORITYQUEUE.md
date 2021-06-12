@@ -106,17 +106,19 @@ Collections.sort(arrr,Collections.reverseOrder());
 Comparator<String> myComp = new Comparator<String>() {
          @Override
          public int compare(String s1, String s2) {
-           //
+           //第二个参数为2，代表split操作只需要进行一次
 	   String[] split1 = s1.split(" ", 2);
            String[] split2 = s2.split(" ", 2);
            boolean isDigit1 = Character.isDigit(split1[1].charAt(0));
            boolean isDigit2 = Character.isDigit(split2[1].charAt(0));
-           if(!isDigit1 && !isDigit2) {             
+           if(!isDigit1 && !isDigit2) {
+	   //如果comp大于0，则说明字符串1比字符串2要大，需要颠倒顺序，所以这实际是按照字母顺序正序排列
              int comp = split1[1].compareTo(split2[1]);
              if(comp != 0)
               return comp;
               return split1[0].compareTo(split2[0]);
            }
+	   //如果A是数字，B不是数字，返回1，则证明需要颠倒顺序，所以一定是字母更靠前
              return isDigit1 ? (isDigit2 ? 0 : 1) : -1;
          }
        };
