@@ -36,7 +36,7 @@ categories: TOOLS
 
 
 PriorityQueue   
-### 1. 对于非primative类型的数组, 用Arrays.sort()进行倒序排序 或者 用Arrays.asList()进行把array转为ArrayList都是不合理的,想这么操作只能使用java8中的Arrays.stream(arr).boxed();
+### 1. 对于primative类型的数组, 用Arrays.sort()进行倒序排序 或者 用Arrays.asList()进行把array转为ArrayList都是不合理的,想这么操作只能使用java8中的Arrays.stream(arr).boxed();
 ### 记住，Arrays中的方法都是作用于array而不是 ArrayList
 ### 1.2 给primative类型的array数组排序升序
 ```java
@@ -56,6 +56,12 @@ List<Integer> arrayList = Arrays.stream(arr).boxed().collect(Collectors.toList()
 ```java
 int[] array = res.stream().mapToInt(Integer::valueOf).toArray();
 ```
+### 1.6 对二维数组的排序,可以直接使用Arrays.sort()
+```java
+int[][] intervals = new int[ ][ ] { };
+ Arrays.sort(intervals,(a,b)->a[0] - b[0]);
+```
+
 
 ### 2.而对于非primative类型的array数组进行倒序排序 或者 转为ArrayList 可以直接使用Arrays.sort() 或者Arrays.asList();
 ```java
