@@ -36,18 +36,23 @@ categories: TOOLS
 
 
 PriorityQueue   
-### 1. 对于primative类型的数组, 用Arrays.sort()进行倒序排序 或者 用Arrays.asList()进行把array转为ArrayList都是不合理的,想这么操作只能使用java8中的Arrays.stream(arr).boxed();
+### 1. 对于primative类型的数组, 只能使用Arrays.sort进行正序排序，
+### 用Arrays.sort()进行倒序排序 或者 用Arrays.asList()进行把array转为ArrayList都是不合理的,想这么操作只能使用java8中的Arrays.stream(arr).boxed();
+### Arrays.sort(OK),Arrays.sort(Collections.reverseOrder())(NO), Arrays.asList(NO)
 ### 记住，Arrays中的方法都是作用于array而不是 ArrayList
+
 ### 1.2 给primative类型的array数组排序升序
 ```java
 int[] a = new int[]{3,6,1,2,8,7};
 Arrays.sort(a);
 ```
+
 ### 1.3 给primative类型的array数组排序降序
 ```java
 int[] arr = new int[]{3,6,1,2,8,7};
 arr= Arrays.stream(arr).boxed().sorted(Collections.reverseOrder()).mapToInt(Integer::intValue).toArray();
 ```
+
 ### 1.4 int array 转为ArrayList
 ```java
 List<Integer> arrayList = Arrays.stream(arr).boxed().collect(Collectors.toList());
@@ -56,28 +61,40 @@ List<Integer> arrayList = Arrays.stream(arr).boxed().collect(Collectors.toList()
 ```java
 int[] array = res.stream().mapToInt(Integer::valueOf).toArray();
 ```
-### 1.6 对二维数组的排序,可以直接使用Arrays.sort()
-```java
-int[][] intervals = new int[ ][ ] { };
- Arrays.sort(intervals,(a,b)->a[0] - b[0]);
-```
+
 
 
 ### 2.而对于非primative类型的array数组进行倒序排序 或者 转为ArrayList 可以直接使用Arrays.sort() 或者Arrays.asList();
+### Arrays.sort(OK),Arrays.sort(Collections.reverseOrder())(OK), Arrays.asList(OK)
+
 ```java
 String[]  strings  = new String[]{"123","456","789"};
 Arrays.sort(strings);
 Arrays.sort(strings,Collections.reverseOrder());
+List<String> list=Arrays.asList(strings);
+
 ```
 
-### 3.对于ArrayList
+### 3.对于二维数组来说, Arrays.sort(OK),Arrays.sort(Collections.reverseOrder())(OK), Arrays.asList(OK)
+### 3.1 对二维数组的排序,可以直接使用Arrays.sort()
+```java
+int[][] intervals = new int[ ][ ] { };
+ Arrays.sort(intervals,(a,b)->a[0] - b[0]);
+```
+### 3.2 对二维数组的排序,转为ArrayList
+```java
+int[][] a = new int[][]{{1,2}};
+List<int[]> rrr=Arrays.asList(a);
+```
 
-### 3.1 给ArrayList升序排序
+### 4.对于ArrayList,请使用Collections.sort()
+
+### 4.1 给ArrayList升序排序
 ```java
 Collections.sort(arraylist);
 ```
 
-### 3.2 给ArrayList降序排序
+### 4.2 给ArrayList降序排序
 ```java
 Collections.sort(arrr,Collections.reverseOrder());
 ```
